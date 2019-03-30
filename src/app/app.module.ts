@@ -17,10 +17,9 @@ import {
 
 import {AngularFireModule} from '@angular/fire';
 import 'hammerjs';
-import {environment} from "../environments/environment";
-import {AngularFireDatabaseModule} from "@angular/fire/database";
-import {AngularFireAuthModule} from "@angular/fire/auth";
-
+import {environment} from '../environments/environment';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 
 import {AppComponent} from './app.component';
@@ -29,10 +28,12 @@ import {LoginPageComponent} from './login-page/login-page.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
+import {InsuranceOverviewComponent} from './insurance-overview/insurance-overview.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
     {path: '', component: HomePageComponent}, // Default route
-    {path: 'login', component: LoginPageComponent}
+    {path: 'login', component: LoginPageComponent},
+    {path: 'insurance-overview', component: InsuranceOverviewComponent}
 ];
 
 @NgModule({
@@ -40,7 +41,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
         AppComponent,
         LoginPageComponent,
         HomePageComponent,
-        NavBarComponent
+        NavBarComponent,
+        InsuranceOverviewComponent
     ],
     imports: [
         BrowserModule,
