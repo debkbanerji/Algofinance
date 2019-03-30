@@ -19,9 +19,12 @@
 <header class="bg-light py-5 mb-5">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <h1 class="display-4 text-black mt-5 mb-2">Algofinance</h1>
                 <p class="lead mb-5 text-black-50">Intelligent Personal Finance Management</p>
+            </div>
+            <div class ="col-lg-4">
+<!--                <img src = "{{SMART_URL}}">-->
             </div>
         </div>
     </div>
@@ -59,8 +62,9 @@
         <div class="col-md-4 mb-5">
             <br>
             <br>
-            <img width = "80px" height = "80px" src="{{GOOGLE_URL}}" class="logo-small"/>
-            <button mat-button color = "primary" (click)="loginWithGoogle()">Sign in with Google Cloud Platform</button>
+
+            <button  style = "background-color: white" mat-button color = "primary" (click)="loginWithGoogle()"> <img width = "20px" height = "20px"
+                                                                                         src="{{GOOGLE_URL}}" class="logo-small"/> Sign in with Google Cloud Platform</button>
         </div>
 
     </div>
