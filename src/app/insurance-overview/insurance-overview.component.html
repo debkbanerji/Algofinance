@@ -1,11 +1,98 @@
-<input type="text" name="newName" [(ngModel)]="newName"><br>
-<input type="number" name="newCost" [(ngModel)]="newCost"><br>
-<input type="text" name="newDescription" [(ngModel)]="newDescription"><br>
-<input type="number" name="newImportance" [(ngModel)]="newImportance"><br>
 
-<button (click)="onAddInsuranceItemSubmit()"> submit</button>
-<ul>
-    <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
-        <pre>{{ insuranceItem | json }}</pre>
-    </li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Algofinance | Website</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <!--<link href="css/business-frontpage.css" rel="stylesheet"> -->
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <h4> <img id="logo" src="logo.png"> &nbsp; | &nbsp; Algofinance</h4></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="bg-light py-5 mb-5">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-12">
+                <h2 class="display-4 text-black mt-5 mb-2">View Insurance Items</h2>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 mb-5">
+
+            <input type="text" name="newName" [(ngModel)]="newName"><br>
+            <input type="number" name="newCost" [(ngModel)]="newCost"><br>
+            <input type="text" name="newDescription" [(ngModel)]="newDescription"><br>
+            <input type="number" name="newImportance" [(ngModel)]="newImportance"><br>
+            <button (click)="onAddInsuranceItemSubmit()"> submit</button>
+            <ul>
+                <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
+                    <pre>{{ insuranceItem | json }}</pre>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="col-md-4 mb-5">
+            <br>
+            <br>
+            <button class ="btn btn-primary">Sign in with Google</button>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Algofinance 2019</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+

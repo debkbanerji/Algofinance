@@ -1,15 +1,67 @@
-<div class="row">
-    <div class="col-xs-12">
-        <div class="container-fluid">
-            <div class="panel">
-                <!--TODO: Replace-->
-                <img src="{{LOGO_URL}}" class="logo-large"/>
-                <h1>Algofinance</h1>
-                <p>Intelligent personal finance management</p>
-                <b>Made with ♥ by Deb Banerji, Hannah Kim, Charlie King, Tony Peng</b>
-                <br>
-                <button md-raised-button class="btn btn-raised btn-custom" (click)="loginWithGoogle()">Login With Google</button>
+<!--<div class="row">-->
+<!--    <div class="col-xs-12">-->
+<!--        <div class="container-fluid">-->
+<!--            <div class="panel">-->
+<!--                &lt;!&ndash;TODO: Replace&ndash;&gt;-->
+<!--                <img src="{{LOGO_URL}}" class="logo-large"/>-->
+<!--                <h1>Algofinance</h1>-->
+<!--                <p>Intelligent personal finance management</p>-->
+<!--                <b>Made with ♥ by Deb Banerji, Hannah Kim, Charlie King, Tony Peng</b>-->
+<!--                <br>-->
+<!--                <button md-raised-button class="btn btn-raised btn-custom" (click)="loginWithGoogle()">Login With Google</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!-- Header -->
+<header class="bg-light py-5 mb-5">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-12">
+                <h1 class="display-4 text-black mt-5 mb-2">Algofinance</h1>
+                <p class="lead mb-5 text-black-50">Intelligent Personal Finance Management</p>
             </div>
         </div>
     </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <h2 id="contact">The Team</h2>
+            <hr>
+            <address>
+                <strong>Deb Banerji</strong>
+                <br>
+                <a href="mailto:#">dbanerji3@gatech.edu</a>
+            </address>
+            <address>
+                <strong>Tony Peng</strong>
+                <br>
+                <a href="mailto:#">ypeng88@gatech.edu</a>
+            </address>
+            <address>
+                <strong>Hannah Kim</strong>
+                <br>
+                <a href="mailto:#">hkim948@gatech.edu</a>
+            </address>
+            <address>
+                <strong>Charlie King</strong>
+                <br>
+                <a href="mailto:#">cking90@gatech.edu</a>
+            </address>
+        </div>
+
+        <div class="col-md-4 mb-5">
+            <br>
+            <br>
+            <button class="btn btn-primary" (click)="loginWithGoogle()">Sign in with Google</button>
+        </div>
+
+    </div>
 </div>
+<!-- /.row -->

@@ -13,7 +13,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private isLoggedIn: boolean;
     private routerSubscription: Subscription;
     private currentRoute: string;
-    public navBarItems: Array<any>;
+    public LOGO_URL: string;
+
+    // public navBarItems: Array<any>;
 
     constructor(public authService: AuthService, private apRef: ApplicationRef,
                 private router: Router, private route: ActivatedRoute,
@@ -21,16 +23,18 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.navBarItems = [
-            {
-                route: '',
-                text: 'Home'
-            },
-            {
-                route: 'logout', // Not actual route - caught by 'navigateTo' function
-                text: 'Sign Out'
-            }
-        ];
+        // this.navBarItems = [
+        //     {
+        //         route: '',
+        //         text: 'Home'
+        //     },
+        //     {
+        //         route: 'logout', // Not actual route - caught by 'navigateTo' function
+        //         text: 'Sign Out'
+        //     }
+        // ];
+
+        this.LOGO_URL = '/assets/images/navbar-logo.png';
 
         this.authService.afAuth.auth.onAuthStateChanged((auth) => {
             this.isLoggedIn = auth != null;
@@ -46,14 +50,16 @@ export class NavBarComponent implements OnInit, OnDestroy {
         });
     }
 
-    private logout() {
+    public logout() {
         this.authService.logout();
     }
 
-    private navigateTo(route) {
+    public navigateTo(route) {
         const component = this;
         if (route === 'logout') {
-            component.authService.logout();
+            component.zone.run(() => {
+                component.authService.logout();
+            });
         } else {
             component.zone.run(() => {
                 component.router.navigate([route]);
