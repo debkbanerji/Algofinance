@@ -65,6 +65,12 @@ export class InsuranceOverviewComponent implements OnInit {
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key).set(null);
     }
 
+    onUpdateInsuranceItemSubmit(item: any, importance, cost) {
+        console.log(importance);
+        this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key)
+            .update({'cost': +cost['value'], 'importance': +importance['value']});
+    }
+
 
 
 }

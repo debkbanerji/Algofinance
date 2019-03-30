@@ -42,13 +42,14 @@
                     <h5 class="card-title">{{insuranceItem['payload'].val()['name']}}</h5>
                     <h6 class="card-text">{{insuranceItem['payload'].val()['description']}}</h6>
                     <label>Cost: </label>
-                    <input type="number" placeholder="{{insuranceItem['payload'].val()['cost']}}">
+                    <input #cost type="number" placeholder="{{insuranceItem['payload'].val()['cost']}}">
                     <br>
                     <label>Importance: </label>
-                    <input type="number" placeholder="{{insuranceItem['payload'].val()['importance']}}">
+                    <input #importance type="number" placeholder="{{insuranceItem['payload'].val()['importance']}}">
                     <br>
-                    <button href="#" class="btn btn-primary">Update</button>
-                    <button (click) = "onRemoveInsuranceItemSubmit(insuranceItem)" href="#" class="btn btn-danger">Remove</button>
+                    <button (click) = "onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)"
+                            class="btn btn-primary">Update</button>
+                    <button (click) = "onRemoveInsuranceItemSubmit(insuranceItem)" class="btn btn-danger">Remove</button>
                 </div>
 
 
