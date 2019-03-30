@@ -1,5 +1,11 @@
+<input type="text" name="newName" [(ngModel)]="newName"><br>
+<input type="number" name="newCost" [(ngModel)]="newCost"><br>
+<input type="text" name="newDescription" [(ngModel)]="newDescription"><br>
+<input type="number" name="newImportance" [(ngModel)]="newImportance"><br>
+
+<button (click)="onAddInsuranceItemSubmit()"> submit</button>
 <ul>
-    <li *ngFor="let insuranceItem of insuranceItems | async">
+    <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
         <pre>{{ insuranceItem | json }}</pre>
     </li>
 </ul>
