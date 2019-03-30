@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     private userDataSubscription: Subscription;
     public LOGO_URL: string;
     public GOOGLE_URL: string;
+    public SMART_URL: string;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private ngZone: NgZone) {
     }
@@ -23,6 +24,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         // TODO: Replace
         this.LOGO_URL = '/assets/images/logo.png';
         this.GOOGLE_URL = '/assets/images/google.png';
+
     }
 
     loginWithGoogle() {

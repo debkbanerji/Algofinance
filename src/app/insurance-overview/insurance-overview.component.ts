@@ -12,12 +12,15 @@ import {Observable} from 'rxjs';
 export class InsuranceOverviewComponent implements OnInit {
 
     public insuranceItemsValueChanges: Observable<any[]>;
+
     private insuranceItemsList: AngularFireList<any>;
 
     public newName: string;
     public newCost: number;
     public newDescription: string;
     public newImportance: number;
+
+    public userUID: string;
 
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
@@ -28,9 +31,11 @@ export class InsuranceOverviewComponent implements OnInit {
         component.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
                 const path = '/user-insurance-lists/' + auth.uid;
+                component.userUID = auth.uid;
                 component.ngZone.run(function () {
                     component.insuranceItemsList = db.list(path);
-                    component.insuranceItemsValueChanges = component.insuranceItemsList.valueChanges();
+                    component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
+
                 });
             } else {
                 component.ngZone.run(function () {
@@ -45,9 +50,7 @@ export class InsuranceOverviewComponent implements OnInit {
 
     onAddInsuranceItemSubmit() {
         const component = this;
-        if (component.newCost ) {
-        }
-        console.log(component);
+        this.addInsuranceItem(component.newName, component.newCost, component.newDescription, component.newImportance);
     }
 
     addInsuranceItem(name, cost, description, importance) {
@@ -58,5 +61,10 @@ export class InsuranceOverviewComponent implements OnInit {
             'importance': importance
         });
     }
+    onRemoveInsuranceItemSubmit(item: any) {
+        this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key).set(null);
+    }
+
+
 
 }
