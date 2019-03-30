@@ -1,0 +1,17 @@
+{
+    "name": "algofinance",
+    "version": "0.0.0",
+    "description": "Intelligent personal finance management",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "author": "Deb Banerji, Hannah Kim, Charlie King, Tony Peng",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.17.2",
+        "express": "^4.14.0",
+        "path": "^0.12.7"
+    }
+}
