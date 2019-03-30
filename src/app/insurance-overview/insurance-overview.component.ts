@@ -44,13 +44,10 @@ export class InsuranceOverviewComponent implements OnInit {
     }
 
     onAddInsuranceItemSubmit() {
-        // const component = this;
-        // if (component.newCost)
-        // let shouldAdd = false;
-        //
-        // if (shouldAdd) {
-
-        //}
+        const component = this;
+        if (component.newCost ) {
+        }
+        console.log(component);
     }
 
     addInsuranceItem(name, cost, description, importance) {

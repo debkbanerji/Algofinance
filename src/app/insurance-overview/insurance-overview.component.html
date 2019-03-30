@@ -59,6 +59,7 @@
             <ul>
                 <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
                     <pre>{{ insuranceItem | json }}</pre>
+                    <h2>{{insuranceItem['name']}}</h2>
                 </li>
             </ul>
 

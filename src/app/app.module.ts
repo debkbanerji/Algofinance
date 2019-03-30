@@ -29,6 +29,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {InsuranceOverviewComponent} from './insurance-overview/insurance-overview.component';
+import { CalculatePolicyComponent } from './calculate-policy/calculate-policy.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
     {path: '', component: HomePageComponent}, // Default route
@@ -42,7 +43,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
         LoginPageComponent,
         HomePageComponent,
         NavBarComponent,
-        InsuranceOverviewComponent
+        InsuranceOverviewComponent,
+        CalculatePolicyComponent
     ],
     imports: [
         BrowserModule,
