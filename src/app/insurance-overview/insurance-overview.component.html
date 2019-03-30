@@ -1,3 +1,5 @@
-<p>
-  insurance-overview works!
-</p>
+<ul>
+    <li *ngFor="let insuranceItem of insuranceItems | async">
+        <pre>{{ insuranceItem | json }}</pre>
+    </li>
+</ul>

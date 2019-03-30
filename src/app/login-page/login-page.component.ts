@@ -5,7 +5,6 @@ import {AngularFireDatabase} from '@angular/fire/database';
 
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs';
-import {computeStyle} from "@angular/animations/browser/src/util";
 
 @Component({
     selector: 'app-login-page',
@@ -37,7 +36,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                         'photo-url': auth.photoURL
                     }).then(_ => {
                         const userInsuranceListObj = component.db.object('/user-insurance-lists/' + auth.uid);
-\                        userInsuranceListObj.query.once('value').then((existsResult) => {
+                        userInsuranceListObj.query.once('value').then((existsResult) => {
                             // result is the returned items json
                             if (existsResult.exists()) {
                                 // something is returned
