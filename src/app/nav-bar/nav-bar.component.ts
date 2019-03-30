@@ -51,7 +51,10 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     public logout() {
-        this.authService.logout();
+        const component = this;
+        component.zone.run(() => {
+            this.authService.logout();
+        });
     }
 
     public navigateTo(route) {
