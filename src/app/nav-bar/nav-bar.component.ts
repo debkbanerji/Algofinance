@@ -23,51 +23,40 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // this.navBarItems = [
-        //     {
-        //         route: '',
-        //         text: 'Home'
-        //     },
-        //     {
-        //         route: 'logout', // Not actual route - caught by 'navigateTo' function
-        //         text: 'Sign Out'
-        //     }
-        // ];
 
-        this.LOGO_URL = '/assets/images/navbar-logo.png';
+        const component = this;
 
-        this.authService.afAuth.auth.onAuthStateChanged((auth) => {
-            this.isLoggedIn = auth != null;
-            this.apRef.tick(); // For updating UI
+        component.LOGO_URL = '/assets/images/navbar-logo.png';
+
+        component.authService.afAuth.auth.onAuthStateChanged((auth) => {
+            component.isLoggedIn = auth != null;
         });
 
-        this.routerSubscription = this.route.url.subscribe(url => {
-            if (url[0]) {
-                this.currentRoute = url[0].path;
-            } else {
-                this.currentRoute = '';
-            }
+        component.routerSubscription = component.route.url.subscribe(url => {
+            component.zone.run(() => {
+                if (url[0]) {
+                    component.currentRoute = url[0].path;
+                } else {
+                    component.currentRoute = '';
+                }
+            });
         });
     }
 
     public logout() {
-        const component = this;
-        component.zone.run(() => {
-            this.authService.logout();
-        });
+        this.navigateTo('logout');
     }
 
     public navigateTo(route) {
         const component = this;
-        if (route === 'logout') {
-            component.zone.run(() => {
+        component.zone.run(() => {
+            if (route === 'logout') {
                 component.authService.logout();
-            });
-        } else {
-            component.zone.run(() => {
+                component.router.navigate(['login']);
+            } else {
                 component.router.navigate([route]);
-            });
-        }
+            }
+        });
     }
 
     ngOnDestroy() {
