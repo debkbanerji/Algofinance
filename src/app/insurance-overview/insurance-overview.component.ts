@@ -34,7 +34,7 @@ export class InsuranceOverviewComponent implements OnInit {
                 });
             } else {
                 component.ngZone.run(function () {
-                    component.router.navigate(['']);
+                    component.router.navigate(['login']);
                 });
             }
         });
