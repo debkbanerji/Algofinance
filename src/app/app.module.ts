@@ -32,9 +32,10 @@ import {InsuranceOverviewComponent} from './insurance-overview/insurance-overvie
 import { CalculatePolicyComponent } from './calculate-policy/calculate-policy.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
-    {path: '', component: HomePageComponent}, // Default route
+    {path: '', component: InsuranceOverviewComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
-    {path: 'insurance-overview', component: InsuranceOverviewComponent}
+    {path: 'insurance-overview', component: InsuranceOverviewComponent},
+    {path: 'calculate-policy', component: CalculatePolicyComponent}
 ];
 
 @NgModule({
