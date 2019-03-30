@@ -22,8 +22,6 @@ export class CalculatePolicyComponent implements OnInit {
     public almostDone = 5;
     public done = 6;
 
-    public stepDelta = 100;
-
     public resultInsuranceItems = [];
 
 
