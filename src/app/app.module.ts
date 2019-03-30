@@ -17,7 +17,6 @@ import {
 
 import {AngularFireModule} from '@angular/fire';
 import 'hammerjs';
-import {environment} from '../environments/environment';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 
@@ -25,7 +24,6 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AppComponent} from './app.component';
 import {AuthService} from './providers/auth.service';
 import {LoginPageComponent} from './login-page/login-page.component';
-import {HomePageComponent} from './home-page/home-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {InsuranceOverviewComponent} from './insurance-overview/insurance-overview.component';
@@ -36,7 +34,6 @@ import { ManageClientComponent } from './manage-client/manage-client.component';
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
     {path: '', component: InsuranceOverviewComponent}, // Default route
     {path: 'login', component: LoginPageComponent},
-    {path: 'insurance-overview', component: InsuranceOverviewComponent},
     {path: 'calculate-policy', component: CalculatePolicyComponent},
     {path: 'view-clients', component: ViewClientsComponent},
     {path: 'manage-client', component: ManageClientComponent}
@@ -46,7 +43,6 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
     declarations: [
         AppComponent,
         LoginPageComponent,
-        HomePageComponent,
         NavBarComponent,
         InsuranceOverviewComponent,
         CalculatePolicyComponent,
