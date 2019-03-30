@@ -1,2 +1,9 @@
 <app-nav-bar></app-nav-bar>
-<h1>Running optimization algorithm with monthly budget of ${{budget}}</h1>
+<h3>Running optimization algorithm with monthly budget of ${{budget}}</h3>
+<mat-progress-spinner
+    class="example-margin"
+    color="primary"
+    mode="determinate"
+    [value]="5 + 90 * (currentState) / (almostDone)">
+</mat-progress-spinner>
+<p *ngIf="currentState === notLoaded">Initializing...</p>
