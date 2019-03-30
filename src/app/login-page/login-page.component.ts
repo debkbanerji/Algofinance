@@ -5,6 +5,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs';
+import {computeStyle} from "@angular/animations/browser/src/util";
 
 @Component({
     selector: 'app-login-page',
@@ -35,8 +36,38 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                         'display-name': auth.displayName,
                         'photo-url': auth.photoURL
                     }).then(_ => {
-                        component.ngZone.run(function () {
-                            component.router.navigate(['']);
+                        const userInsuranceListObj = component.db.object('/user-insurance-lists/' + auth.uid);
+\                        userInsuranceListObj.query.once('value').then((existsResult) => {
+                            // result is the returned items json
+                            if (existsResult.exists()) {
+                                // something is returned
+                                component.ngZone.run(function () {
+                                    component.router.navigate(['']);
+                                });
+                            } else {
+                                // create the insurance list
+                                const defaultInsuranceList = component.db.object('/default-insurance-data/');
+                                defaultInsuranceList.query.once('value').then((defaultResult) => {
+                                    const defaultList = defaultResult.val();
+                                    const keyset = Object.keys(defaultList);
+                                    const userList = {};
+                                    for (let i = 0; i < keyset.length; i++) {
+                                        const item = defaultList[keyset[i]];
+                                        userList[keyset[i]] = {
+                                            'name': item['name'],
+                                            'cost': item['default-cost'],
+                                            'importance': item['default-importance'],
+                                            'description': item['description']
+                                        }
+                                    }
+                                    userInsuranceListObj.set(userList).then(() => {
+                                        component.ngZone.run(function () {
+                                            component.router.navigate(['']);
+                                        });
+                                    });
+
+                                });
+                            }
                         });
                     });
                 }
