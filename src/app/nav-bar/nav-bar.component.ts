@@ -1,4 +1,4 @@
-import {Component, OnInit, ApplicationRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy, NgZone} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {AuthService} from '../providers/auth.service';
@@ -16,7 +16,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     public navBarItems: Array<any>;
 
     constructor(public authService: AuthService, private apRef: ApplicationRef,
-                private router: Router, private route: ActivatedRoute) {
+                private router: Router, private route: ActivatedRoute,
+                private zone: NgZone) {
     }
 
     ngOnInit() {
@@ -50,10 +51,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
     }
 
     private navigateTo(route) {
+        const component = this;
         if (route === 'logout') {
-            this.authService.logout();
+            component.authService.logout();
         } else {
-            this.router.navigate([route]);
+            component.zone.run(() => {
+                component.router.navigate([route]);
+            });
         }
     }
 
