@@ -46,20 +46,27 @@ export class InsuranceOverviewComponent implements OnInit {
                         });
                         component.route.queryParams.subscribe(params => {
                             const targetUID = params['uid'];
-                            const targetObject = component.db.object('/user-insurance-lists/' + targetUID);
-                            targetObject.query.once('value').then((listExistsResult) => {
-                                if (listExistsResult.exists()) {
-                                    component.initializeList(targetUID);
-                                    const clientInfoObject = component.db.object('/user-profiles/' + targetUID);
-                                    clientInfoObject.query.once('value').then((clientInfoResult) => {
-                                        component.ngZone.run(function () {
-                                            component.clientName = clientInfoResult.val()['display-name'];
+                            if (targetUID) {
+                                const targetObject = component.db.object('/user-insurance-lists/' + targetUID);
+                                targetObject.query.once('value').then((listExistsResult) => {
+                                    if (listExistsResult.exists()) {
+                                        component.initializeList(targetUID);
+                                        const clientInfoObject = component.db.object('/user-profiles/' + targetUID);
+                                        clientInfoObject.query.once('value').then((clientInfoResult) => {
+                                            component.ngZone.run(function () {
+                                                component.clientName = clientInfoResult.val()['display-name'];
+                                            });
                                         });
-                                    });
-                                } else {
-                                    component.router.navigate(['']);
-                                }
-                            });
+                                    } else {
+                                        component.router.navigate(['']);
+                                    }
+                                });
+                            } else {
+                                component.initializeList(auth.uid);
+                                component.ngZone.run(function () {
+                                    component.clientName = component.userName;
+                                });
+                            }
                         });
                     } else {
                         const userInfoObject = component.db.object('/user-profiles/' + component.userUID);
@@ -104,7 +111,7 @@ export class InsuranceOverviewComponent implements OnInit {
             'cost': cost,
             'description': description,
             'importance': importance,
-            'url' : this.defaultURL
+            'url': this.defaultURL
         });
     }
 
