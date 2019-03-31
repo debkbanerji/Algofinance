@@ -25,6 +25,8 @@ export class CalculatePolicyComponent implements OnInit {
     public inputItems = [];
     public resultInsuranceItems = [];
 
+    public calculationStartTime: number;
+    public calculationTimeTaken: string;
 
     constructor(
         private authService: AuthService,
@@ -36,6 +38,7 @@ export class CalculatePolicyComponent implements OnInit {
 
     ngOnInit() {
         const component = this;
+        component.calculationStartTime = new Date().getTime();
         component.route.queryParams.subscribe(params => {
             component.budget = params['budget'];
             if (!component.budget) {
@@ -132,6 +135,8 @@ export class CalculatePolicyComponent implements OnInit {
             actual += component.inputItems[i]['importance'];
         }
         component.confidenceLevel = Math.round(total / actual * 10000) / 100;
+        const timeTakenMS = new Date().getTime() - component.calculationStartTime;
+        component.calculationTimeTaken = (timeTakenMS/1000).toFixed(3);
     }
 
     // Knapsack without repetition

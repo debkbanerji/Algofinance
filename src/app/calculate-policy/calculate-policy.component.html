@@ -24,7 +24,7 @@
                     <p *ngIf="currentState === runningKnapsack">Running Optimization Algorithm...</p>
                     <p *ngIf="currentState === consolidatingResults">Consolidating Results...</p>
                     <p *ngIf="currentState === almostDone">Almost Done...</p>
-                    <p *ngIf="currentState === done"></p>
+                    <p *ngIf="currentState === done">Finished in {{calculationTimeTaken}} Seconds</p>
                 </div>
             </div>
         </div>
