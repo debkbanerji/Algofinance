@@ -52,8 +52,10 @@
             <mat-slide-toggle [(ngModel)]="loginAsAgent">Request Agent Access</mat-slide-toggle>
             <div *ngIf="loginAsAgent">
                 <mat-form-field><input type="password" matInput placeholder="Agent request passkey"
-                                       autocomplete="off"
-                                       [(ngModel)]="agentPassKey"></mat-form-field>
+                                       autocomplete="false"
+                                       [(ngModel)]="agentPassKey"
+                                       (keyup.enter)="loginWithGoogle()"
+                ></mat-form-field>
                 <br>
                 <small>If you're already an agent, you do not need to re-enter your pass key</small>
             </div>
