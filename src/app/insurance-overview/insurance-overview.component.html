@@ -19,48 +19,42 @@
 
 <!-- Page Content -->
 <div class="container">
-    <label>Add New Item</label>
+    <h5>Add New Item</h5>
     <div class="row">
         <div class="col-md-6 mb-5">
 <!--            <input type="text" name="newName" placeholder="Item"[(ngModel)]="newName"><br>-->
 <!--            <input type="number" name="newCost" placeholder="Cost" [(ngModel)]="newCost"><br>-->
 <!--            <input type="text" name="newDescription" placeholder="Description "[(ngModel)]="newDescription"><br>-->
 
-            <mat-form-field><input matInput placeholder="Item"></mat-form-field><br>
-            <mat-form-field><input matInput placeholder="Cost"></mat-form-field><br>
-            <mat-form-field><input matInput placeholder="Description"></mat-form-field><br>
-                        <input type="number" name="newImportance" placeholder="Importance" [(ngModel)]="newImportance"><br>
-<!--            <mat-slider min="1" max="100" step="1" value="50"></mat-slider>-->
+            <mat-form-field><input type="text" matInput placeholder="Item" [(ngModel)]="newName"></mat-form-field><br>
+            <mat-form-field><input type="number" matInput placeholder="Cost" [(ngModel)]="newCost"></mat-form-field><br>
+            <mat-form-field><input type="text" matInput placeholder="Description" [(ngModel)]="newDescription"></mat-form-field><br>
+            <input type="number" name="newImportance" placeholder="Importance" [(ngModel)]="newImportance"><br>
             <br>
             <button class="btn btn-primary"(click)="onAddInsuranceItemSubmit()"> Submit</button>
             <br><br>
-<!--            <ul>-->
-<!--                <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">-->
-<!--                    <pre>{{ insuranceItem | json }}</pre>-->
-<!--                    <h2>{{insuranceItem['name']}}</h2>-->
-<!--                </li>-->
-<!--            </ul>-->
             <div *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
 
                 <img class ="card" style="width: 200px">
                 <div class="card-body">
                     <h5 class="card-title">{{insuranceItem['payload'].val()['name']}}</h5>
                     <h6 class="card-text">{{insuranceItem['payload'].val()['description']}}</h6>
-                    <label>Cost: </label>
-                    <input #cost type="number" placeholder="{{insuranceItem['payload'].val()['cost']}}">
-
-                    <br>
-                    <label>Importance: </label>
-                    <input #importance type="number" placeholder="{{insuranceItem['payload'].val()['importance']}}">
-                    <br>
+                    <label>Cost:&nbsp;</label>
+                    <mat-form-field><input matInput #cost type="number" value="{{insuranceItem['payload'].val()['cost']}}"></mat-form-field><br>
+                    <label>Importance:&nbsp;</label>
+                    <mat-form-field><input matInput #importance type="number" value="{{insuranceItem['payload'].val()['importance']}}"></mat-form-field><br>
                     <button (click) = "onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)"
                             class="btn btn-primary">Update</button>
                     <button (click) = "onRemoveInsuranceItemSubmit(insuranceItem)" class="btn btn-danger">Remove</button>
                 </div>
             </div>
+            <div>
+                <label>Budget:</label><br>
+                <input type="number" name="Budget" placeholder="Budget"[(ngModel)]="budget"><br><br>
+                <button class="btn btn-primary" (click)="calculateInsurance()">Calculate</button>
+            </div>
         </div>
-        <input type="number" name="Budget" placeholder="Budget"[(ngModel)]="budget">
-        <button (click)="calculateInsurance()">calculate</button>
+
 
 
 <!--        <div class="col-md-4 mb-5">-->
