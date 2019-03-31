@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
         const component = this;
 
-        component.LOGO_URL = '/assets/images/navbar-logo.png';
+        component.LOGO_URL = '/assets/images/aflogo.png';
 
         component.authService.afAuth.auth.onAuthStateChanged((auth) => {
             component.isLoggedIn = auth != null;
