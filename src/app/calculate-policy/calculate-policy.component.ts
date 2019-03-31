@@ -59,7 +59,9 @@ export class CalculatePolicyComponent implements OnInit {
                                     inputItems.push({
                                         'id': i,
                                         'cost': item['cost'],
-                                        'importance': item['importance']
+                                        'importance': item['importance'],
+                                        'name': item['name'],
+                                        'description': item['description']
                                     });
                                 }
 
