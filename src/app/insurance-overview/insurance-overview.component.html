@@ -83,7 +83,7 @@
     <h1>CHAT</h1>
     <h2>{{(numCommentsChanges | async)?.payload.val() || 0}}</h2>
     <button (click)="makeComment()">Add comment</button>
-    <div *ngFor="let comment of commentListChanges | async | orderBy: num">
+    <div *ngFor="let comment of commentListChanges | async | orderBy: num : true">
         <div>{{comment|json}}</div>
     </div>
     <input type="text" placeholder="Comment" [(ngModel)]="newCommentText">
