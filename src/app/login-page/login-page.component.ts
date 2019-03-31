@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs';
+import {MatSnackBar} from "@angular/material";
 
 declare let sjcl;
 
@@ -25,7 +26,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         'B9DD960C1753459A78115D3CB845A57D924B6877E805B08BD01086CCDF34433C'
     ];
 
-    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private ngZone: NgZone) {
+    constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private ngZone: NgZone, public snackBar: MatSnackBar) {
     }
 
     ngOnInit() {
@@ -37,16 +38,21 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         const component = this;
         this.authService.loginWithGoogle().then((loginData) => {
             this.authService.afAuth.auth.onAuthStateChanged((auth) => {
-                const bitArray = sjcl.hash.sha256.hash(component.agentPassKey.toLowerCase());
-                const passKeyHash = sjcl.codec.hex.fromBits(bitArray);
-                let containsHash = false;
-                for (let i = 0; i < component.validHashes.length; i++) {
-                    containsHash = containsHash || (component.validHashes[i].toLowerCase() === passKeyHash);
-                }
-                if (!containsHash) {
-                    component.loginAsAgent = false;
-                }
                 if (auth != null) {
+                    const bitArray = sjcl.hash.sha256.hash(component.agentPassKey.toLowerCase());
+                    const passKeyHash = sjcl.codec.hex.fromBits(bitArray);
+                    let containsHash = false;
+                    for (let i = 0; i < component.validHashes.length; i++) {
+                        containsHash = containsHash || (component.validHashes[i].toLowerCase() === passKeyHash);
+                    }
+                    if (containsHash) {
+                        component.showMessage('Unlocking agent privileges');
+                    } else if (component.loginAsAgent) {
+                        component.showMessage('Unrecognized passkey - triggering regular login');
+                    }
+                    if (!containsHash) {
+                        component.loginAsAgent = false;
+                    }
                     const profileObject = component.db.object('/' + (component.loginAsAgent ? 'agent' : 'user') + '-profiles/' + auth.uid);
                     profileObject.set({
                         'uid': auth.uid,
@@ -58,6 +64,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                             component.finishClientLogin(auth);
                         } else {
                             component.ngZone.run(function () {
+                                component.showMessage('Logged in as agent');
                                 component.router.navigate(['view-clients']);
                             });
                         }
@@ -109,5 +116,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         if (this.userDataSubscription) {
             this.userDataSubscription.unsubscribe();
         }
+    }
+
+    showMessage(message: string) {
+        const component = this;
+        component.snackBar.open(message, null, {
+            duration: 2000,
+        });
     }
 }
