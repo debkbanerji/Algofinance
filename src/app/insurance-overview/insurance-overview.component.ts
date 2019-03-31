@@ -22,6 +22,8 @@ export class InsuranceOverviewComponent implements OnInit {
 
     public userUID: string;
 
+    public budget: number = 500;
+
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
                 private router: Router,
@@ -61,6 +63,7 @@ export class InsuranceOverviewComponent implements OnInit {
             'importance': importance
         });
     }
+
     onRemoveInsuranceItemSubmit(item: any) {
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key).set(null);
     }
@@ -71,6 +74,10 @@ export class InsuranceOverviewComponent implements OnInit {
             .update({'cost': +cost['value'], 'importance': +importance['value']});
     }
 
-
+    calculateInsurance() {
+        const component = this;
+        // TODO: Budget checks
+        component.router.navigate(['calculate-policy'], {queryParams: {budget: component.budget}});
+    }
 
 }

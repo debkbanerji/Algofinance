@@ -27,16 +27,17 @@ import {LoginPageComponent} from './login-page/login-page.component';
 import {config} from './config/firebase-config';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {InsuranceOverviewComponent} from './insurance-overview/insurance-overview.component';
-import { CalculatePolicyComponent } from './calculate-policy/calculate-policy.component';
-import { ViewClientsComponent } from './view-clients/view-clients.component';
-import { ManageClientComponent } from './manage-client/manage-client.component';
+import {CalculatePolicyComponent} from './calculate-policy/calculate-policy.component';
+import {ViewClientsComponent} from './view-clients/view-clients.component';
+import {ManageClientComponent} from './manage-client/manage-client.component';
 
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
-    {path: '', component: InsuranceOverviewComponent}, // Default route
+    {path: '', component: InsuranceOverviewComponent},
     {path: 'login', component: LoginPageComponent},
     {path: 'calculate-policy', component: CalculatePolicyComponent},
     {path: 'view-clients', component: ViewClientsComponent},
-    {path: 'manage-client', component: ManageClientComponent}
+    {path: 'manage-client', component: ManageClientComponent},
+    {path: '**', component: InsuranceOverviewComponent} // Default route
 ];
 
 @NgModule({
