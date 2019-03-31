@@ -74,7 +74,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                             'name': item['name'],
                             'cost': item['default-cost'],
                             'importance': item['default-importance'],
-                            'description': item['description']
+                            'description': item['description'],
+                            'url': item['url']
                         }
                     }
                     userInsuranceListObj.set(userList).then(() => {

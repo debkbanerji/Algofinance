@@ -21,6 +21,8 @@ export class InsuranceOverviewComponent implements OnInit {
     public newImportance: number;
 
     public userUID: string;
+    public userName: string;
+    public clientName: string;
 
     public budget: number = 500;
 
@@ -37,18 +39,34 @@ export class InsuranceOverviewComponent implements OnInit {
                 const isAdminObject = component.db.object('/agent-profiles/' + component.userUID);
                 isAdminObject.query.once('value').then((existsResult) => {
                     if (existsResult.exists()) {
+                        component.ngZone.run(function () {
+                            component.userName = existsResult.val()['display-name'];
+                        });
                         component.route.queryParams.subscribe(params => {
                             const targetUID = params['uid'];
                             const targetObject = component.db.object('/user-insurance-lists/' + targetUID);
                             targetObject.query.once('value').then((listExistsResult) => {
                                 if (listExistsResult.exists()) {
                                     component.initializeList(targetUID);
+                                    const clientInfoObject = component.db.object('/user-profiles/' + targetUID);
+                                    clientInfoObject.query.once('value').then((clientInfoResult) => {
+                                        component.ngZone.run(function () {
+                                            component.clientName = clientInfoResult.val()['display-name'];
+                                        });
+                                    });
                                 } else {
                                     component.router.navigate(['']);
                                 }
                             });
                         });
                     } else {
+                        const userInfoObject = component.db.object('/user-profiles/' + component.userUID);
+                        userInfoObject.query.once('value').then((clientInfoResult) => {
+                            component.ngZone.run(function () {
+                                component.userName = clientInfoResult.val()['display-name'];
+                                component.clientName = clientInfoResult.val()['display-name'];
+                            });
+                        });
                         component.initializeList(auth.uid);
                     }
                 });
@@ -67,7 +85,6 @@ export class InsuranceOverviewComponent implements OnInit {
         component.ngZone.run(function () {
             component.insuranceItemsList = component.db.list(path);
             component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
-
         });
     }
 
