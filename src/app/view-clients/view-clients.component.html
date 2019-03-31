@@ -19,38 +19,26 @@
 
 <!-- Page Content -->
 <div class="container">
-    <label>Add New Item</label>
     <div class="row">
         <div class="col-md-6 mb-5">
-            <input type="text" name="newName" placeholder="Item"[(ngModel)]="newName"><br>
-            <input type="number" name="newCost" placeholder="Cost" [(ngModel)]="newCost"><br>
-            <input type="text" name="newDescription" placeholder="Description "[(ngModel)]="newDescription"><br>
-            <input type="number" name="newImportance" placeholder="Importance" [(ngModel)]="newImportance"><br>
-            <br>
-            <button class="btn btn-primary"(click)="onAddInsuranceItemSubmit()"> Submit</button>
-            <br><br>
-            <!--            <ul>-->
-            <!--                <li *ngFor="let insuranceItem of insuranceItemsValueChanges | async">-->
-            <!--                    <pre>{{ insuranceItem | json }}</pre>-->
-            <!--                    <h2>{{insuranceItem['name']}}</h2>-->
-            <!--                </li>-->
-            <!--            </ul>-->
-            <div *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
+
+
+            <div class = "row">
+                <div *ngFor="let userItem of userValueChanges | async">
 
                 <img class ="card" style="width: 200px">
-                <div class="card-body">
-                    <h5 class="card-title">{{insuranceItem['payload'].val()['name']}}</h5>
-                    <h6 class="card-text">{{insuranceItem['payload'].val()['description']}}</h6>
-                    <label>Cost: </label>
-                    <input #cost type="number" placeholder="{{insuranceItem['payload'].val()['cost']}}">
-                    <br>
-                    <label>Importance: </label>
-                    <input #importance type="number" placeholder="{{insuranceItem['payload'].val()['importance']}}">
-                    <br>
-                    <button (click) = "onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)"
-                            class="btn btn-primary">Update</button>
-                    <button (click) = "onRemoveInsuranceItemSubmit(insuranceItem)" class="btn btn-danger">Remove</button>
+
+                    <div class="card-body col-md-6">
+                        <h5>{{userItem['payload'].val()['display-name']}}
+                        </h5>
+                        <img src = "{{userItem['payload'].val()['photo-url']}}" width = "100px" height = "100px">
+                        <br>
+                        <button (click) = "onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)"
+                                class="btn btn-primary">View</button>
+                    </div>
+
                 </div>
+
 
 
             </div>

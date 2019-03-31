@@ -5,9 +5,9 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 @Component({
-    selector: 'app-insurance-overview',
-    templateUrl: './insurance-overview.component.html',
-    styleUrls: ['./insurance-overview.component.css'],
+    selector: 'app-view-clients',
+    templateUrl: './view-clients.component.html',
+    styleUrls: ['./view-clients.component.css'],
 })
 export class ViewClientsComponent implements OnInit {
 
