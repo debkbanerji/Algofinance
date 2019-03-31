@@ -24,9 +24,12 @@ export class CalculatePolicyComponent implements OnInit {
     public achievedImportance = 0;
     public inputItems = [];
     public resultInsuranceItems = [];
-
+    public moneySpent;
+    public moneyUnspent;
+    public unselectedItems;
     public calculationStartTime: number;
     public calculationTimeTaken: string;
+    public remainingCost: number;
 
     constructor(
         private authService: AuthService,
@@ -105,8 +108,19 @@ export class CalculatePolicyComponent implements OnInit {
                                                         component.currentState = component.consolidatingResults;
 
                                                         const resultItems = [];
+                                                        const notChosenItems = [];
+                                                        const wasTakenArray = new Array(component.inputItems.length);
+                                                        for (let i = 0; i < wasTakenArray.length; i++) {
+                                                            wasTakenArray[i] = false;
+                                                        }
                                                         for (let i = 0; i < knapsackResult.length; i++) {
+                                                            wasTakenArray[knapsackResult[i]] = true;
                                                             resultItems.push(component.inputItems[knapsackResult[i]]);
+                                                        }
+                                                        for (let i = 0; i < wasTakenArray.length; i++) {
+                                                            if (!wasTakenArray[i]) {
+                                                                notChosenItems.push(component.inputItems[i]);
+                                                            }
                                                         }
                                                         setTimeout(() => {
                                                             component.zone.run(() => {
@@ -115,7 +129,7 @@ export class CalculatePolicyComponent implements OnInit {
                                                                     component.zone.run(() => {
                                                                         component.currentState = component.done;
                                                                         component.resultInsuranceItems = resultItems;
-                                                                        component.displayResults(resultItems);
+                                                                        component.displayResults(resultItems, notChosenItems);
                                                                     });
                                                                 }, 1000)
                                                             });
@@ -139,20 +153,35 @@ export class CalculatePolicyComponent implements OnInit {
         });
     }
 
-    private displayResults(resultItems) {
+    private displayResults(resultItems, notChosenItems) {
         const component = this;
         let total = 0;
+        let spent = 0;
+        let result = "";
+        let remaining = 0;
         for (let i = 0; i < resultItems.length; i++) {
             total += resultItems[i]['importance'];
+            spent += resultItems[i]['cost'];
         }
         let actual = 0;
 
         for (let i = 0; i < component.inputItems.length; i++) {
             actual += component.inputItems[i]['importance'];
         }
+        for(let i = 0; i < notChosenItems.length; i++){
+            result += notChosenItems[i]['name'] + ', ';
+            remaining += notChosenItems[i]['cost'];
+        }
+        if (result.length > 2){
+            component.unselectedItems = result.substr(0, result.length-2);
+
+        }
         component.achievedImportance = Math.round(total / actual * 10000) / 100;
         const timeTakenMS = new Date().getTime() - component.calculationStartTime;
         component.calculationTimeTaken = (timeTakenMS / 1000).toFixed(3);
+        component.moneySpent = spent;
+        component.moneyUnspent = component.budget - spent;
+        component.remainingCost = remaining - this.moneyUnspent;
     }
 
     // Knapsack without repetition
