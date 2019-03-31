@@ -1,10 +1,4 @@
 <app-nav-bar></app-nav-bar>
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
-<!-- Navigation -->
 
 <nav class=" bg-light my-5 fixed-top ">
     <div class="container ">
@@ -12,31 +6,21 @@
             <div class="col-lg-7">
                 <h3 class="display-4 text-black mt-2 mb-2">{{clientName}}'s Insurance List</h3>
             </div>
-            <div class ="col-lg-3">
+            <div class="col-lg-3">
                 <mat-form-field>
                     <mat-label>Budget</mat-label>
                     <input matInput type="number" placeholder="Budget" [(ngModel)]="budget">
-                </mat-form-field><br>
+                </mat-form-field>
+                <br>
             </div>
             <div class="col-lg-2">
-                <button style = "background-color: white" mat-button color = "primary" (click)="calculateInsurance()">Calculate</button>
+                <button style="background-color: white" mat-button color="primary" (click)="calculateInsurance()">
+                    Calculate
+                </button>
             </div>
         </div>
     </div>
 </nav>
-
-<!--<nav class="navbar navbar-toggleable-sm bg-inverse navbar-inverse fixed-top my-5" >-->
-<!--    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--    </button>-->
-<!--    <a href="/" class="navbar-brand">Two</a>-->
-<!--    <div class="navbar-collapse collapse" id="navbar2">-->
-<!--        <ul class="navbar-nav">-->
-<!--            ..-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--</nav>-->
-<!-- Page Content -->
 
 <br>
 <br>
@@ -46,33 +30,57 @@
 
 
     <div class="row">
-        <div class ="col-md-4" *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
-            <div >
+        <div class="col-md-4" *ngFor="let insuranceItem of insuranceItemsValueChanges | async">
+            <div>
                 <br>
-                <img class ="card" style="width: 200px">
-                <div class=" card-body">
-                    <h5 class="card-title">{{insuranceItem['payload'].val()['name']}}</h5>
-                    <h6 class="card-text">{{insuranceItem['payload'].val()['description']}}</h6>
-                    <mat-form-field>
-                        <mat-label>Cost</mat-label>
-                        <input matInput #cost type="number" placeholder=""></mat-form-field><br>
-                    <mat-form-field>
-                        <mat-label>Importance</mat-label>
-                        <input matInput #importance type="number" placeholder="{{insuranceItem['payload'].val()['importance']}}"></mat-form-field><br>
-                    <button style = "background-color: white" mat-button color = "primary" (click)="onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)">Update</button>
-                    <button style = "background-color: white" mat-button color = "primary" (click)="onRemoveInsuranceItemSubmit(insuranceItem)">Remove</button>
-                </div>
+                <mat-card class="exmaple-card">
+                    <mat-card-header>
+                        <mat-card-title
+                            style="font-weight:bold; font-size:24px">{{insuranceItem['payload'].val()['name']}}</mat-card-title>
+                    </mat-card-header>
+
+                    <img mat-card-image style="margin-left: 30px; height:  200px; width: 200px;"
+                         src="{{insuranceItem['payload'].val()['url']}}">
+
+                    <mat-card-content>
+                        <p>
+                            {{insuranceItem['payload'].val()['description']}}
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button style="background-color: white" mat-button color="primary"
+                                (click)="onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)">Update
+                        </button>
+                        <button style="background-color: white" mat-button color="primary"
+                                (click)="onRemoveInsuranceItemSubmit(insuranceItem)">Remove
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+
             </div>
 
 
         </div>
-        <div style = "display: inline-block" class = "col-md-4">
-            <button (click)="openDialog()" style = "margin-top: 100px; margin-left: 100px;" mat-fab color = "primary" label = "add">+</button>
+        <div class="col-md-4">
+            <h4>Add new item</h4>
+            <mat-form-field><input type="text" matInput placeholder="Item" [(ngModel)]="newName"></mat-form-field>
+            <br>
+            <mat-form-field><input type="number" matInput placeholder="Cost" [(ngModel)]="newCost"></mat-form-field>
+            <br>
+            <mat-form-field><input type="text" matInput placeholder="Description" [(ngModel)]="newDescription">
+            </mat-form-field>
+            <br>
+            <label>Importance</label><br>
+            <mat-slider min="1" max="100" step="1" thumbLabel></mat-slider>
+            <br>
+            <button style="background-color: white" mat-button color="primary" (click)="onAddInsuranceItemSubmit()">
+                Submit
+            </button>
         </div>
 
     </div>
-<!-- /.container -->
 </div>
+
 
 <div>
     <h1>CHAT</h1>
