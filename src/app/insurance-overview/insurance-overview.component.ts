@@ -33,7 +33,7 @@ export class InsuranceOverviewComponent implements OnInit {
 
     public newCommentText: string;
 
-    public budget: number = 500;
+    public budget: number;
 
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
@@ -132,9 +132,13 @@ export class InsuranceOverviewComponent implements OnInit {
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key).set(null);
     }
 
-    onUpdateInsuranceItemSubmit(item: any, importance, cost) {
+    onUpdateInsuranceItemSubmit(item: any) {
+        const cost = document.getElementById('cost-' + item['key']).value;
+        const importance = document.getElementById('importance-' + item['key']).getAttribute('aria-valuenow');
+        console.log(cost);
+        console.log(importance);
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key)
-            .update({'cost': +cost['value'], 'importance': +importance['value']});
+            .update({'cost': cost, 'importance': importance});
     }
 
     calculateInsurance() {

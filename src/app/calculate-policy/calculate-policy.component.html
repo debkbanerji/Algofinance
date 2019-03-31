@@ -88,10 +88,11 @@
                     </div>
                 </div>
                 <h6>Safety level: {{confidenceLevel}}</h6>
-                <br>
-                <button (click)="navigateBack()" mat-button color = "primary">Go back</button>
             </div>
         </div>
     </div>
 </div>
+<p style="text-align: center" *ngIf="currentState === done">
+    <button (click)="navigateBack()" mat-raised-button >Go back</button>
+</p>
 
