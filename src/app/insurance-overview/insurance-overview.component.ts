@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireList,} from '@angular/fire/database';
 import {AuthService} from '../providers/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -27,23 +27,47 @@ export class InsuranceOverviewComponent implements OnInit {
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
                 private router: Router,
+                private route: ActivatedRoute,
                 private ngZone: NgZone
     ) {
         const component = this;
         component.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
-                const path = '/user-insurance-lists/' + auth.uid;
                 component.userUID = auth.uid;
-                component.ngZone.run(function () {
-                    component.insuranceItemsList = db.list(path);
-                    component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
-
+                const isAdminObject = component.db.object('/agent-profiles/' + component.userUID);
+                isAdminObject.query.once('value').then((existsResult) => {
+                    if (existsResult.exists()) {
+                        component.route.queryParams.subscribe(params => {
+                            const targetUID = params['uid'];
+                            const targetObject = component.db.object('/user-insurance-lists/' + targetUID);
+                            targetObject.query.once('value').then((listExistsResult) => {
+                                if (listExistsResult.exists()) {
+                                    component.initializeList(targetUID);
+                                } else {
+                                    component.router.navigate(['']);
+                                }
+                            });
+                        });
+                    } else {
+                        component.initializeList(auth.uid);
+                    }
                 });
             } else {
                 component.ngZone.run(function () {
                     component.router.navigate(['login']);
                 });
             }
+        });
+    }
+
+    private initializeList(uid) {
+        const component = this;
+        component.userUID = uid;
+        const path = '/user-insurance-lists/' + uid;
+        component.ngZone.run(function () {
+            component.insuranceItemsList = component.db.list(path);
+            component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
+
         });
     }
 

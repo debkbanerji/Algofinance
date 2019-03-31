@@ -34,7 +34,7 @@
                         <img src = "{{userItem['payload'].val()['photo-url']}}" width = "100px" height = "100px">
                         <br>
                         <br>
-                        <button (click) = "onViewClientClicked()"
+                        <button (click) = "onViewClientClicked(userItem['payload'].val()['uid'])"
                                 class="btn btn-primary">View Client</button>
                     </div>
 
