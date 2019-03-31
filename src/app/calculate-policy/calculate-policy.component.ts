@@ -87,16 +87,13 @@ export class CalculatePolicyComponent implements OnInit {
                                 component.currentState = component.almostDone;
                                 setTimeout(() => {
                                     component.currentState = component.done;
-                                    console.log(resultItems);
                                     component.resultInsuranceItems = resultItems;
                                     let total = 0;
                                     for (let i = 0; i < resultItems.length; i++){
                                         total += resultItems[i]['importance'];
                                     }
                                     let actual = 0;
-                                    for (let i = 0; i < component.inputItems.length; i++){
-                                        actual += component.inputItems[i]['importance'];
-                                    }
+
                                     component.confidenceLevel = Math.round(total / actual * 10000)/100;
                                 }, 750)
                             });
