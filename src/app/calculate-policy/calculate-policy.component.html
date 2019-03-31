@@ -39,13 +39,26 @@
 
     <div class="row">
         <div class="col-md-4 mb-5">
-            <p *ngIf="currentState >= notLoaded">Initializing...</p>
-            <p *ngIf="currentState >= retrievingData">Retrieving Data...</p>
-            <p *ngIf="currentState >= transformingInputData">Transforming Input Data...</p>
-            <p *ngIf="currentState >= runningKnapsack">Running Optimization Algorithm...</p>
-            <p *ngIf="currentState >= consolidatingResults">Consolidating Results...</p>
-            <p *ngIf="currentState >= almostDone">Almost Done...</p>
-            <p *ngIf="currentState >= done">Complete!</p>
+            <p align="right" *ngIf="currentState === notLoaded">Initializing...</p>
+            <p align="right" *ngIf="currentState >= notLoaded">Initializing... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === retrievingData">Retrieving Data...</p>
+            <p align="right" *ngIf="currentState >= retrievingData">Retrieving Data... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === transformingInputData">Transforming Input Data...</p>
+            <p align="right" *ngIf="currentState >= transformingInputData">Transforming Input Data... Done <i style = 'color: green'  class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === runningKnapsack">Running Optimization Algorithm...</p>
+            <p align="right" *ngIf="currentState >= runningKnapsack">Running Optimization Algorithm... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === consolidatingResults">Consolidating Results...</p>
+            <p align="right" *ngIf="currentState >= consolidatingResults">Consolidating Results... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === almostDone">Almost Done...</p>
+            <p align="right" *ngIf="currentState >= almostDone">Almost Done... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === done">Complete!</p>
+
         </div>
         <div class = "col-md-6 mb-5">
 
