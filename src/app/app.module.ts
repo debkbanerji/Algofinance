@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatInputModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule, MatSidenavModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTableModule,
+    MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTableModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
@@ -76,7 +76,8 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
         MatInputModule,
         MatTableModule,
         MatSortModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        MatSliderModule
     ],
     providers: [AuthService],
     bootstrap: [AppComponent]
