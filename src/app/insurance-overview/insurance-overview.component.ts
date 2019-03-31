@@ -20,7 +20,7 @@ export class InsuranceOverviewComponent implements OnInit {
     public newDescription: string;
     public newImportance: number;
 
-    private defaultURL = 'https://www.pinclipart.com/picdir/middle/1-10970_family-law-life-insurance-symbol-png-clipart.png';
+    private defaultURL = 'https://s3.amazonaws.com/peoplepng/wp-content/uploads/2018/12/16175848/Insurance.png';
 
     public userUID: string;
     public userName: string;

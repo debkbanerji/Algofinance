@@ -1,10 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <header class="bg-light py-5 mb-5">
+
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-md-8">
-                <h1 *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2">Calculating...</h1>
-                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2">Complete!</h1>
+                <h1 *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2" >Calculating...</h1>
+                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2" style = "color: green">Complete <i class="fas fa-check"></i></h1>
                 <p class="lead mb-5 text-black-50">Running optimization algorithm with monthly budget of ${{budget}}</p>
             </div>
             <div>
@@ -24,9 +25,63 @@
 
             </div>
             <div class ="col-lg-4">
-                <!--                <img src = "{{SMART_URL}}">-->
+
             </div>
         </div>
+
     </div>
+
 </header>
+
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4 mb-5">
+            <p align="right" *ngIf="currentState === notLoaded">Initializing...</p>
+            <p align="right" *ngIf="currentState >= notLoaded">Initializing... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === retrievingData">Retrieving Data...</p>
+            <p align="right" *ngIf="currentState >= retrievingData">Retrieving Data... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === transformingInputData">Transforming Input Data...</p>
+            <p align="right" *ngIf="currentState >= transformingInputData">Transforming Input Data... Done <i style = 'color: green'  class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === runningKnapsack">Running Optimization Algorithm...</p>
+            <p align="right" *ngIf="currentState >= runningKnapsack">Running Optimization Algorithm... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === consolidatingResults">Consolidating Results...</p>
+            <p align="right" *ngIf="currentState >= consolidatingResults">Consolidating Results... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === almostDone">Almost Done...</p>
+            <p align="right" *ngIf="currentState >= almostDone">Almost Done... Done <i style = 'color: green' class="fas fa-check"></i></p>
+
+            <p align="right" *ngIf="currentState === done">Complete!</p>
+
+        </div>
+        <div class = "col-md-6 mb-5">
+
+            <div *ngIf="currentState >= done">
+                <h6>Items to insure</h6>
+                <div class = "row">
+                    <div *ngFor="let insuranceItem of resultInsuranceItems">
+                        <div class = "col-sm-2">
+
+                            <img class ="card" >
+                            <div class="card-body">
+                                <h5>{{insuranceItem["name"]}}
+                                </h5>
+                                <img src = "{{insuranceItem['url']}}" width = "100px" height = "100px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h6>Confidence level: {{confidenceLevel}}</h6>
+        </div>
+
+    </div>
+</div>
+<!-- /.row -->
+
 

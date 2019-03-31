@@ -21,7 +21,8 @@ export class CalculatePolicyComponent implements OnInit {
     public consolidatingResults = 4;
     public almostDone = 5;
     public done = 6;
-
+    public confidenceLevel = 0;
+    public inputItems = [];
     public resultInsuranceItems = [];
 
 
@@ -53,23 +54,25 @@ export class CalculatePolicyComponent implements OnInit {
                                 component.currentState = component.transformingInputData;
                                 const inputObjects = defaultResult.val();
                                 const keyset = Object.keys(inputObjects);
-                                const inputItems = [];
+                                component.inputItems = [];
                                 for (let i = 0; i < keyset.length; i++) {
                                     const item = inputObjects[keyset[i]];
-                                    inputItems.push({
+                                    component.inputItems.push({
                                         'id': i,
                                         'cost': item['cost'],
                                         'importance': item['importance'],
                                         'name': item['name'],
-                                        'description': item['description']
+                                        'description': item['description'],
+                                        'url': item['url']
+
                                     });
                                 }
 
                                 const weights = [];
                                 const values = [];
-                                for (let i = 0; i < inputItems.length; i++) {
-                                    weights.push(Math.floor(inputItems[i]['cost'] * 100));
-                                    values.push(Math.floor(inputItems[i]['importance']));
+                                for (let i = 0; i < component.inputItems.length; i++) {
+                                    weights.push(Math.floor(component.inputItems[i]['cost'] * 100));
+                                    values.push(Math.floor(component.inputItems[i]['importance']));
                                 }
 
                                 component.currentState = component.runningKnapsack;
@@ -78,13 +81,23 @@ export class CalculatePolicyComponent implements OnInit {
 
                                 const resultItems = [];
                                 for (let i = 0; i < knapsackResult.length; i++) {
-                                    resultItems.push(inputItems[knapsackResult[i]]);
+                                    resultItems.push(component.inputItems[knapsackResult[i]]);
                                 }
 
                                 component.currentState = component.almostDone;
                                 setTimeout(() => {
                                     component.currentState = component.done;
                                     console.log(resultItems);
+                                    component.resultInsuranceItems = resultItems;
+                                    let total = 0;
+                                    for (let i = 0; i < resultItems.length; i++){
+                                        total += resultItems[i]['importance'];
+                                    }
+                                    let actual = 0;
+                                    for (let i = 0; i < component.inputItems.length; i++){
+                                        actual += component.inputItems[i]['importance'];
+                                    }
+                                    component.confidenceLevel = Math.round(total / actual * 10000)/100;
                                 }, 750)
                             });
                         });
