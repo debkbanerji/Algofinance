@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireList,} from '@angular/fire/database';
 import {AuthService} from '../providers/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -23,29 +23,70 @@ export class InsuranceOverviewComponent implements OnInit {
     private defaultURL = 'https://www.pinclipart.com/picdir/middle/1-10970_family-law-life-insurance-symbol-png-clipart.png';
 
     public userUID: string;
+    public userName: string;
+    public clientName: string;
 
     public budget: number = 500;
 
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
                 private router: Router,
+                private route: ActivatedRoute,
                 private ngZone: NgZone
     ) {
         const component = this;
         component.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
-                const path = '/user-insurance-lists/' + auth.uid;
                 component.userUID = auth.uid;
-                component.ngZone.run(function () {
-                    component.insuranceItemsList = db.list(path);
-                    component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
-
+                const isAdminObject = component.db.object('/agent-profiles/' + component.userUID);
+                isAdminObject.query.once('value').then((existsResult) => {
+                    if (existsResult.exists()) {
+                        component.ngZone.run(function () {
+                            component.userName = existsResult.val()['display-name'];
+                        });
+                        component.route.queryParams.subscribe(params => {
+                            const targetUID = params['uid'];
+                            const targetObject = component.db.object('/user-insurance-lists/' + targetUID);
+                            targetObject.query.once('value').then((listExistsResult) => {
+                                if (listExistsResult.exists()) {
+                                    component.initializeList(targetUID);
+                                    const clientInfoObject = component.db.object('/user-profiles/' + targetUID);
+                                    clientInfoObject.query.once('value').then((clientInfoResult) => {
+                                        component.ngZone.run(function () {
+                                            component.clientName = clientInfoResult.val()['display-name'];
+                                        });
+                                    });
+                                } else {
+                                    component.router.navigate(['']);
+                                }
+                            });
+                        });
+                    } else {
+                        const userInfoObject = component.db.object('/user-profiles/' + component.userUID);
+                        userInfoObject.query.once('value').then((clientInfoResult) => {
+                            component.ngZone.run(function () {
+                                component.userName = clientInfoResult.val()['display-name'];
+                                component.clientName = clientInfoResult.val()['display-name'];
+                            });
+                        });
+                        component.initializeList(auth.uid);
+                    }
                 });
             } else {
                 component.ngZone.run(function () {
                     component.router.navigate(['login']);
                 });
             }
+        });
+    }
+
+    private initializeList(uid) {
+        const component = this;
+        component.userUID = uid;
+        const path = '/user-insurance-lists/' + uid;
+        component.ngZone.run(function () {
+            component.insuranceItemsList = component.db.list(path);
+            component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
         });
     }
 

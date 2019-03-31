@@ -43,11 +43,10 @@ export class ViewClientsComponent implements OnInit {
     ngOnInit() {
     }
 
-    onViewClientClicked() {
-
+    onViewClientClicked(uid) {
+        const component = this;
+        component.ngZone.run(function () {
+            component.router.navigate([''],{queryParams: {uid: uid}});
+        });
     }
-
-
-
-
 }
