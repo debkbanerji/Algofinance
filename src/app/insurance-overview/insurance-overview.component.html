@@ -38,23 +38,22 @@
                         <mat-card-title
                             style="font-weight:bold; font-size:24px">{{insuranceItem['payload'].val()['name']}}</mat-card-title>
                     </mat-card-header>
-
-                    <img mat-card-image style="margin-left: 30px; height:  200px; width: 200px;"
-                         src="{{insuranceItem['payload'].val()['url']}}">
-
                     <mat-card-content>
                         <p>
                             {{insuranceItem['payload'].val()['description']}}
                         </p>
                     </mat-card-content>
+                    <mat-form-field>
+                        <mat-label>Cost</mat-label>
+                        <input matInput #cost type="number" value="{{insuranceItem['payload'].val()['cost']}}"></mat-form-field><br>
+                    <mat-form-field>
+                        <mat-label>Importance</mat-label>
+                        <input matInput #importance type="number" value="{{insuranceItem['payload'].val()['importance']}}"></mat-form-field><br>
                     <mat-card-actions>
-                        <button style="background-color: white" mat-button color="primary"
-                                (click)="onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)">Update
-                        </button>
-                        <button style="background-color: white" mat-button color="primary"
-                                (click)="onRemoveInsuranceItemSubmit(insuranceItem)">Remove
-                        </button>
+                        <button style = "background-color: white" mat-button color = "primary" (click)="onUpdateInsuranceItemSubmit(insuranceItem, importance, cost)">Update</button>
+                        <button style = "background-color: white" mat-button color = "primary" (click)="onRemoveInsuranceItemSubmit(insuranceItem)">Remove</button>
                     </mat-card-actions>
+
                 </mat-card>
 
             </div>

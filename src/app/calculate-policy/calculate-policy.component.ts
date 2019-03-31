@@ -107,6 +107,7 @@ export class CalculatePolicyComponent implements OnInit {
                                         }, 1000);
                                     });
                                 }, 1000);
+
                             });
                         });
                     }, 1000);
