@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {AuthService} from '../providers/auth.service';
 import {Subscription} from 'rxjs';
+import {AngularFireDatabase} from "@angular/fire/database";
+import {combineAll} from "rxjs/operators";
 
 @Component({
     selector: 'app-nav-bar',
@@ -15,10 +17,16 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private currentRoute: string;
     public LOGO_URL: string;
 
+    public isHome: boolean;
+    public isAgent: boolean;
+
     // public navBarItems: Array<any>;
 
-    constructor(public authService: AuthService, private apRef: ApplicationRef,
-                private router: Router, private route: ActivatedRoute,
+    constructor(public authService: AuthService,
+                private db: AngularFireDatabase,
+                private apRef: ApplicationRef,
+                private router: Router,
+                private route: ActivatedRoute,
                 private zone: NgZone) {
     }
 
@@ -34,17 +42,38 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
         component.routerSubscription = component.route.url.subscribe(url => {
             component.zone.run(() => {
+                component.isHome = (url.length === 0);
                 if (url[0]) {
                     component.currentRoute = url[0].path;
                 } else {
                     component.currentRoute = '';
                 }
+                component.authService.afAuth.auth.onAuthStateChanged((auth) => {
+                    if (auth != null) {
+                        const isAdminObject = component.db.object('/agent-profiles/' + auth.uid);
+                        isAdminObject.query.once('value').then((existsResult) => {
+                            component.zone.run(() => {
+                                component.isAgent = existsResult.exists();
+                                const isViewingClient = url[0] && (url[0].path === 'view-clients');
+                                if (component.isAgent) {
+                                    component.isHome = isViewingClient;
+                                } else if (isViewingClient) {
+                                    component.navigateTo('');
+                                }
+                            })
+                        });
+                    }
+                })
             });
         });
     }
 
     public logout() {
         this.navigateTo('logout');
+    }
+
+    public navigateHome() {
+        this.navigateTo(this.isAgent ? 'view-clients' : '');
     }
 
     public navigateTo(route) {

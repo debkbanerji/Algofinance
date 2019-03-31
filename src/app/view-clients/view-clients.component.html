@@ -1,12 +1,6 @@
 <app-nav-bar></app-nav-bar>
-<!DOCTYPE html>
-<html lang="en">
 
-<body>
 
-<!-- Navigation -->
-
-<!-- Header -->
 <header class="bg-light py-5 mb-5">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -17,51 +11,31 @@
     </div>
 </header>
 
-<!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="mb-5">
-
-
-            <div class = "row">
-
+            <div class="row">
                 <div *ngFor="let userItem of userValueChanges | async">
-
-                    <img class ="card" style= "width: 200px">
-                    <div class="card-body">
-                        <h5>{{userItem['payload'].val()['display-name']}}
+                    <img class="card" style="width: 200px">
+                    <div class="card-body" style="text-align: center">
+                        <h5>{{userItem['payload'].val()['uid'] !== userUID ? userItem['payload'].val()['display-name'] : 'Me'}}
                         </h5>
-                        <img  style = "border-radius: 50%" src = "{{userItem['payload'].val()['photo-url']}}" width = "100px" height = "100px">
+                        <img style="border-radius: 50%" src="{{userItem['payload'].val()['photo-url']}}" width="100px"
+                             height="100px">
                         <br>
                         <br>
 
-                        <button mat-raised-button color = "primary" (click) = "onViewClientClicked()"
-                                >View Client</button>
+                        <button mat-raised-button color="primary"
+                                (click)="onViewClientClicked(userItem['payload'].val()['uid'])">
+                            View {{userItem['payload'].val()['uid'] !== userUID ? 'Client' : 'My Finances'}}
+                        </button>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.row -->
 </div>
-<!-- /.container -->
-
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Algofinance 2019</p>
-    </div>
-    <!-- /.container -->
-</footer>
-
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
 
 
 

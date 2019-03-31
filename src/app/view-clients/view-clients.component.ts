@@ -26,6 +26,7 @@ export class ViewClientsComponent implements OnInit {
         component.authService.afAuth.auth.onAuthStateChanged((auth) => {
             if (auth != null) {
                 const path = '/user-profiles';
+                component.userUID = auth.uid;
                 //component.userUID = auth.uid;
                 component.ngZone.run(function () {
                     component.userList = db.list(path);
@@ -46,7 +47,7 @@ export class ViewClientsComponent implements OnInit {
     onViewClientClicked(uid) {
         const component = this;
         component.ngZone.run(function () {
-            component.router.navigate([''],{queryParams: {uid: uid}});
+            component.router.navigate([''], {queryParams: {uid: uid}});
         });
     }
 }
