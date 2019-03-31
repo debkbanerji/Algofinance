@@ -103,7 +103,7 @@ export class InsuranceOverviewComponent implements OnInit {
         component.ngZone.run(function () {
             component.insuranceItemsList = component.db.list(insurancePath);
             component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
-            component.commentList = component.db.list(commentsPath);
+            component.commentList = component.db.list(commentsPath, ref => ref.orderByChild('num').limitToLast(6));
             component.commentListChanges = component.commentList.snapshotChanges();
             component.numComments = component.db.object(commentsCountPath);
             component.numCommentsChanges = component.numComments.snapshotChanges();
