@@ -128,6 +128,9 @@ export class CalculatePolicyComponent implements OnInit {
         }
         let actual = 0;
 
+        for (let i = 0; i < component.inputItems.length; i++) {
+            actual += component.inputItems[i]['importance'];
+        }
         component.confidenceLevel = Math.round(total / actual * 10000) / 100;
     }
 
