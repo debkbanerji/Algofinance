@@ -85,7 +85,7 @@ export class CalculatePolicyComponent implements OnInit {
                                         const weights = [];
                                         const values = [];
                                         for (let i = 0; i < component.inputItems.length; i++) {
-                                            weights.push(Math.floor(component.inputItems[i]['cost'] * scalingFactor));
+                                            weights.push(Math.ceil(component.inputItems[i]['cost'] * scalingFactor));
                                             values.push(Math.floor(component.inputItems[i]['importance']));
                                         }
 
