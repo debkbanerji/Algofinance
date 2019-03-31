@@ -67,7 +67,12 @@
                                                                                          src="{{GOOGLE_URL}}" class="logo-small"/> Sign in with Google Cloud Platform</button>
             <br>
             <br>
-            <mat-slide-toggle [(ngModel)]="loginAsAgent">Sign in as Agent</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="loginAsAgent">Request Agent Access</mat-slide-toggle>
+            <div  *ngIf="loginAsAgent">
+                <mat-form-field><input type="text" matInput placeholder="Agent request passkey" [(ngModel)]="agentPassKey"></mat-form-field>
+                <br>
+                <small>If you're already an agent, you do not need to re-enter your pass key</small>
+            </div>
         </div>
 
     </div>
