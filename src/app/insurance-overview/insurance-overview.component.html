@@ -10,7 +10,8 @@
             <div class="col-lg-3" *ngIf="!isAgent">
                 <mat-form-field>
                     <mat-label>Budget in Dollars</mat-label>
-                    <input matInput type="number" (keyup.enter)="calculateInsurance()" [(ngModel)]="budget">
+                    <input matInput type="number" id="budget-field" (keyup.enter)="calculateInsurance()"
+                           [(ngModel)]="budget" (change)="verifyBudget()">
                 </mat-form-field>
                 <br>
             </div>
@@ -44,7 +45,8 @@
                             </mat-card-content>
                             <mat-form-field>
                                 <mat-label>Cost</mat-label>
-                                <input matInput id="cost-{{insuranceItem['key']}}" type="number"
+                                <input matInput id="cost-{{insuranceItem['key']}}" type="number" min="0" step="0.01"
+                                       (change)="verifyCost('cost-'+insuranceItem['key'])"
                                        value="{{insuranceItem['payload'].val()['cost']}}">
                             </mat-form-field>
                             <br>
@@ -80,6 +82,7 @@
                             </mat-form-field>
                             <br>
                             <mat-form-field><input type="number" matInput placeholder="Cost (Dollars)"
+                                                   (change)="verifyNewCost()" min="0" step="0.01"
                                                    [(ngModel)]="newCost">
                             </mat-form-field>
                             <br>

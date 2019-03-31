@@ -3,6 +3,7 @@ import {AngularFireDatabase, AngularFireList, AngularFireObject,} from '@angular
 import {AuthService} from '../providers/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
     selector: 'app-insurance-overview',
@@ -122,13 +123,18 @@ export class InsuranceOverviewComponent implements OnInit {
     }
 
     addInsuranceItem(name, cost, description, importance) {
-        this.insuranceItemsList.push({
-            'name': name,
-            'cost': cost,
-            'description': description,
-            'importance': importance,
-            'url': this.defaultURL
-        });
+        if (name && description && (cost !== null) && (cost !== undefined)) {
+            this.insuranceItemsList.push({
+                'name': name,
+                'cost': cost,
+                'description': description,
+                'importance': importance,
+                'url': this.defaultURL
+            });
+            this.newCost = null;
+            this.newDescription = '';
+            this.newName = '';
+        }
     }
 
     onRemoveInsuranceItemSubmit(item: any) {
@@ -146,9 +152,25 @@ export class InsuranceOverviewComponent implements OnInit {
         const component = this;
         if (component.budget > 0) {
             component.router.navigate(['calculate-policy'], {queryParams: {budget: component.budget}});
-        } else {
-            // TODO: Error message
         }
+    }
+
+    verifyCost(fieldId) {
+        let element = document.getElementById(fieldId);
+        let cost = element.value;
+        cost = Math.max(0, cost);
+        cost = +cost.toFixed(2);
+        element.value = cost;
+    }
+
+    verifyBudget() {
+        this.budget = Math.max(0, this.budget);
+        this.budget = +this.budget.toFixed(2);
+    }
+
+    verifyNewCost() {
+        this.newCost = Math.max(0, this.newCost);
+        this.newCost = +this.newCost.toFixed(2);
     }
 
     makeComment() {
