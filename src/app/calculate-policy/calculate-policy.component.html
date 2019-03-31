@@ -4,27 +4,28 @@
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-md-8">
-                <h1 *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2">Calculating...</h1>
-                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2" style="color: green">Complete
+                <h1 style="margin-top: 16px !important;" *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2">Calculating...</h1>
+                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2" style="color: green; margin-top: 16px !important;">Complete
                     <i class="fas fa-check"></i></h1>
+                <br>
                 <p class="lead mb-5 text-black-50">Running optimization algorithm with monthly budget of ${{budget}}</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="text-align: center">
                 <mat-progress-spinner
-                    style="text-align: center"
+                    style="margin: 0 auto; padding-bottom: 100px"
                     class="example-margin"
                     color="primary"
                     mode="determinate"
                     [value]="5 + 90 * (currentState) / (almostDone)">
                 </mat-progress-spinner>
-                <div>
-                    <p *ngIf="currentState === notLoaded">Initializing...</p>
-                    <p *ngIf="currentState === retrievingData">Retrieving Data...</p>
-                    <p *ngIf="currentState === transformingInputData">Transforming Input Data...</p>
-                    <p *ngIf="currentState === runningKnapsack">Running Optimization Algorithm...</p>
-                    <p *ngIf="currentState === consolidatingResults">Consolidating Results...</p>
-                    <p *ngIf="currentState === almostDone">Almost Done...</p>
-                    <p *ngIf="currentState === done">Finished in {{calculationTimeTaken}} Seconds</p>
+                <div class="lead mb-5 text-black-50">
+                    <span *ngIf="currentState === notLoaded">Initializing</span>
+                    <span *ngIf="currentState === retrievingData">Retrieving Data</span>
+                    <span *ngIf="currentState === transformingInputData">Transforming Input Data</span>
+                    <span *ngIf="currentState === runningKnapsack">Running Optimization Algorithm</span>
+                    <span *ngIf="currentState === consolidatingResults">Consolidating Results</span>
+                    <span *ngIf="currentState === almostDone">Almost Done...</span>
+                    <span *ngIf="currentState === done">Finished in {{calculationTimeTaken}} Seconds</span>
                 </div>
             </div>
         </div>
