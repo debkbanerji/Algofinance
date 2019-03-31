@@ -73,17 +73,26 @@ export class CalculatePolicyComponent implements OnInit {
                                             });
                                         }
 
+
+                                        let scalingFactor = 1;
+                                        const problemSize = component.budget * component.inputItems.length;
+                                        let maxViableProblemSize = 50000;
+                                        if (problemSize > maxViableProblemSize) {
+                                            scalingFactor = maxViableProblemSize / problemSize;
+                                        }
+                                        scalingFactor *= 100;
+
                                         const weights = [];
                                         const values = [];
                                         for (let i = 0; i < component.inputItems.length; i++) {
-                                            weights.push(Math.floor(component.inputItems[i]['cost'] * 100));
+                                            weights.push(Math.floor(component.inputItems[i]['cost'] * scalingFactor));
                                             values.push(Math.floor(component.inputItems[i]['importance']));
                                         }
 
                                         setTimeout(() => {
                                             component.zone.run(() => {
                                                 component.currentState = component.runningKnapsack;
-                                                const knapsackResult = component.knapsack(weights, values, Math.floor(component.budget * 100));
+                                                const knapsackResult = component.knapsack(weights, values, Math.floor(component.budget * scalingFactor));
                                                 setTimeout(() => {
                                                     component.zone.run(() => {
                                                         component.currentState = component.consolidatingResults;
@@ -136,7 +145,7 @@ export class CalculatePolicyComponent implements OnInit {
         }
         component.confidenceLevel = Math.round(total / actual * 10000) / 100;
         const timeTakenMS = new Date().getTime() - component.calculationStartTime;
-        component.calculationTimeTaken = (timeTakenMS/1000).toFixed(3);
+        component.calculationTimeTaken = (timeTakenMS / 1000).toFixed(3);
     }
 
     // Knapsack without repetition
