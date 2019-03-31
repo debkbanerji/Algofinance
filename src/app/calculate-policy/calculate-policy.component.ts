@@ -12,7 +12,7 @@ export class CalculatePolicyComponent implements OnInit {
 
     public budget: number;
 
-    public currentState: number = 0;
+    public currentState = 0;
     // Loading state flags
     public notLoaded = 0;
     public retrievingData = 1;
