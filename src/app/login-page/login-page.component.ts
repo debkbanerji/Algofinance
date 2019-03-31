@@ -22,10 +22,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // TODO: Replace
         this.LOGO_URL = '/assets/images/logo.png';
         this.GOOGLE_URL = '/assets/images/google.png';
-
     }
 
     loginWithGoogle() {
@@ -33,49 +31,60 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.authService.loginWithGoogle().then((loginData) => {
             this.authService.afAuth.auth.onAuthStateChanged((auth) => {
                 if (auth != null) {
-                    const userObject = this.db.object('/user-profiles/' + auth.uid);
-                    userObject.set({
+                    const profileObject = component.db.object('/' + (component.loginAsAgent ? 'agent' : 'user') + '-profiles/' + auth.uid);
+                    profileObject.set({
                         'uid': auth.uid,
                         'email': auth.email,
                         'display-name': auth.displayName,
                         'photo-url': auth.photoURL
                     }).then(_ => {
-                        const userInsuranceListObj = component.db.object('/user-insurance-lists/' + auth.uid);
-                        userInsuranceListObj.query.once('value').then((existsResult) => {
-                            // result is the returned items json
-                            if (existsResult.exists()) {
-                                // something is returned
-                                component.ngZone.run(function () {
-                                    component.router.navigate(['']);
-                                });
-                            } else {
-                                // create the insurance list
-                                const defaultInsuranceList = component.db.object('/default-insurance-data/');
-                                defaultInsuranceList.query.once('value').then((defaultResult) => {
-                                    const defaultList = defaultResult.val();
-                                    const keyset = Object.keys(defaultList);
-                                    const userList = {};
-                                    for (let i = 0; i < keyset.length; i++) {
-                                        const item = defaultList[keyset[i]];
-                                        userList[keyset[i]] = {
-                                            'name': item['name'],
-                                            'cost': item['default-cost'],
-                                            'importance': item['default-importance'],
-                                            'description': item['description']
-                                        }
-                                    }
-                                    userInsuranceListObj.set(userList).then(() => {
-                                        component.ngZone.run(function () {
-                                            component.router.navigate(['']);
-                                        });
-                                    });
-
-                                });
-                            }
-                        });
+                        if (!component.loginAsAgent) {
+                            component.finishClientLogin(auth);
+                        } else {
+                            component.ngZone.run(function () {
+                                component.router.navigate(['view-clients']);
+                            });
+                        }
                     });
                 }
             });
+        });
+    }
+
+    private finishClientLogin(auth) {
+        const component = this;
+        const userInsuranceListObj = component.db.object('/user-insurance-lists/' + auth.uid);
+        userInsuranceListObj.query.once('value').then((existsResult) => {
+            // result is the returned items json
+            if (existsResult.exists()) {
+                // something is returned
+                component.ngZone.run(function () {
+                    component.router.navigate(['']);
+                });
+            } else {
+                // create the insurance list
+                const defaultInsuranceList = component.db.object('/default-insurance-data/');
+                defaultInsuranceList.query.once('value').then((defaultResult) => {
+                    const defaultList = defaultResult.val();
+                    const keyset = Object.keys(defaultList);
+                    const userList = {};
+                    for (let i = 0; i < keyset.length; i++) {
+                        const item = defaultList[keyset[i]];
+                        userList[keyset[i]] = {
+                            'name': item['name'],
+                            'cost': item['default-cost'],
+                            'importance': item['default-importance'],
+                            'description': item['description']
+                        }
+                    }
+                    userInsuranceListObj.set(userList).then(() => {
+                        component.ngZone.run(function () {
+                            component.router.navigate(['']);
+                        });
+                    });
+
+                });
+            }
         });
     }
 

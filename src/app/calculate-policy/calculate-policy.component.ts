@@ -12,7 +12,7 @@ export class CalculatePolicyComponent implements OnInit {
 
     public budget: number;
 
-    public currentState: number = 0;
+    public currentState = 0;
     // Loading state flags
     public notLoaded = 0;
     public retrievingData = 1;
@@ -59,7 +59,9 @@ export class CalculatePolicyComponent implements OnInit {
                                     inputItems.push({
                                         'id': i,
                                         'cost': item['cost'],
-                                        'importance': item['importance']
+                                        'importance': item['importance'],
+                                        'name': item['name'],
+                                        'description': item['description']
                                     });
                                 }
 

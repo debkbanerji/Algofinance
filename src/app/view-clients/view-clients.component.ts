@@ -43,6 +43,10 @@ export class ViewClientsComponent implements OnInit {
     ngOnInit() {
     }
 
+    onViewClientClicked() {
+
+    }
+
 
 
 
