@@ -142,7 +142,8 @@ export class InsuranceOverviewComponent implements OnInit {
     }
 
     onUpdateInsuranceItemSubmit(item: any) {
-        const cost = document.getElementById('cost-' + item['key']).value;
+        const element: any = document.getElementById('cost-' + item['key']);
+        const cost = element.value;
         const importance = document.getElementById('importance-' + item['key']).getAttribute('aria-valuenow');
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key)
             .update({'cost': cost, 'importance': importance});
@@ -156,7 +157,7 @@ export class InsuranceOverviewComponent implements OnInit {
     }
 
     verifyCost(fieldId) {
-        let element = document.getElementById(fieldId);
+        let element: any = document.getElementById(fieldId);
         let cost = element.value;
         cost = Math.max(0, cost);
         cost = +cost.toFixed(2);

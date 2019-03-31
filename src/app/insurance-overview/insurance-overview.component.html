@@ -113,11 +113,10 @@
                     <button mat-stroked-button color="primary" (click)="makeComment()">Send</button>&nbsp;&nbsp;&nbsp;
                 </div>
 
-                <div *ngFor="let comment of commentListChanges | async | orderBy: num : false">
+                <div *ngFor="let comment of commentListChanges | async | orderBy: 'num' : true">
                     <div><strong>{{comment['payload'].val()['name'] }}:</strong> {{comment['payload'].val()['text'] }}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
