@@ -63,8 +63,11 @@
             <br>
             <br>
 
-            <button  style = "background-color: white" mat-button color = "primary" (click)="loginWithGoogle()"> <img width = "20px" height = "20px"
+            <button style = "background-color: white" mat-button color = "primary" (click)="loginWithGoogle()"> <img width = "20px" height = "20px"
                                                                                          src="{{GOOGLE_URL}}" class="logo-small"/> Sign in with Google Cloud Platform</button>
+            <br>
+            <br>
+            <mat-slide-toggle [(ngModel)]="loginAsAgent">Sign in as Agent</mat-slide-toggle>
         </div>
 
     </div>

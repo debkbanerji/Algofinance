@@ -16,6 +16,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     public LOGO_URL: string;
     public GOOGLE_URL: string;
     public SMART_URL: string;
+    public loginAsAgent: boolean;
 
     constructor(public authService: AuthService, private db: AngularFireDatabase, private router: Router, private ngZone: NgZone) {
     }
