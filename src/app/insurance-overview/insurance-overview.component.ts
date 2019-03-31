@@ -18,7 +18,7 @@ export class InsuranceOverviewComponent implements OnInit {
     public newName: string;
     public newCost: number;
     public newDescription: string;
-    public newImportance: number;
+    public newImportance: number = 1;
 
     private defaultURL = 'https://s3.amazonaws.com/peoplepng/wp-content/uploads/2018/12/16175848/Insurance.png';
 
