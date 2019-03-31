@@ -4,8 +4,10 @@
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-md-8">
-                <h1 style="margin-top: 16px !important;" *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2">Calculating...</h1>
-                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2" style="color: green; margin-top: 16px !important;">Complete
+                <h1 style="margin-top: 16px !important;" *ngIf="currentState < done"
+                    class="display-4 text-black mt-5 mb-2">Calculating...</h1>
+                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2"
+                    style="color: green; margin-top: 16px !important;">Complete
                     <i class="fas fa-check"></i></h1>
                 <br>
                 <p class="lead mb-5 text-black-50">Running optimization algorithm with monthly budget of ${{budget}}</p>
@@ -73,27 +75,30 @@
         <div class="col-md-6 mb-5">
 
             <div *ngIf="currentState >= done">
-                <h6>Items to insure</h6>
-                <div class="row">
-                    <div *ngFor="let insuranceItem of resultInsuranceItems">
-                        <div class="col-sm-2" style="text-align: center">
-
-                            <img class="card">
-                            <div class="card-body" style="display: inline-block">
-                                <h5>{{insuranceItem["name"]}}
-                                </h5>
-                                <img src="{{insuranceItem['url']}}" width="100px" height="100px">
-                                <h6>${{insuranceItem["cost"]}}</h6>
+                <h3 class="display-4 text-black mt-5 mb-2" style="margin-top: 0 !important;">Results</h3>
+                <div style="padding: 4px">
+                    <h5>Items to Insure</h5>
+                    <div class="row">
+                        <div *ngFor="let insuranceItem of resultInsuranceItems" class="col-sm-4">
+                            <div style="text-align: center">
+                                <mat-card style="width: 100%">
+                                    <mat-card-content>
+                                        <h5>{{insuranceItem["name"]}}
+                                        </h5>
+                                        <img src="{{insuranceItem['url']}}" width="100px" height="100px">
+                                        <h6>${{insuranceItem["cost"]}}</h6>
+                                    </mat-card-content>
+                                </mat-card>
                             </div>
                         </div>
                     </div>
+                    <h6>Safety level: {{achievedImportance}}</h6>
                 </div>
-                <h6>Safety level: {{confidenceLevel}}</h6>
             </div>
         </div>
     </div>
 </div>
 <p style="text-align: center" *ngIf="currentState === done">
-    <button (click)="navigateBack()" mat-raised-button >Go back</button>
+    <button (click)="navigateBack()" mat-raised-button>Home</button>
 </p>
 

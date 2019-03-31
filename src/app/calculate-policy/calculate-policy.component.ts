@@ -21,7 +21,7 @@ export class CalculatePolicyComponent implements OnInit {
     public consolidatingResults = 4;
     public almostDone = 5;
     public done = 6;
-    public confidenceLevel = 0;
+    public achievedImportance = 0;
     public inputItems = [];
     public resultInsuranceItems = [];
 
@@ -150,7 +150,7 @@ export class CalculatePolicyComponent implements OnInit {
         for (let i = 0; i < component.inputItems.length; i++) {
             actual += component.inputItems[i]['importance'];
         }
-        component.confidenceLevel = Math.round(total / actual * 10000) / 100;
+        component.achievedImportance = Math.round(total / actual * 10000) / 100;
         const timeTakenMS = new Date().getTime() - component.calculationStartTime;
         component.calculationTimeTaken = (timeTakenMS / 1000).toFixed(3);
     }
