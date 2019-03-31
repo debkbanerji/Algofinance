@@ -92,13 +92,26 @@
                             </div>
                         </div>
                     </div>
-                    <h6>Safety level: {{achievedImportance}}</h6>
+                    <br>
+                    <mat-card>
+                        <h6>Safety level: {{achievedImportance}}%</h6>
+                        <mat-progress-bar mode="determinate" [value]="achievedImportance"></mat-progress-bar>
+                        <small>This is the highest level of overall safety you can achieve with your current budget. </small>
+                        <small style="color: red" *ngIf="achievedImportance <= 60">Consider raising budget if safety level is too low</small>
+                        <br>
+                        <h6>Budget allocated: ${{moneySpent}}</h6>
+                        <h6>Budget unused: ${{moneyUnspent}}</h6>
+                        <h6>Unselected items: {{unselectedItems}}</h6>
+                        <h6>Cost to insure remaining items: ${{remainingCost}}</h6>
+                    </mat-card>
+                    <br>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 <p style="text-align: center" *ngIf="currentState === done">
-    <button (click)="navigateBack()" mat-raised-button>Home</button>
+    <button (click)="navigateBack()" mat-raised-button>Finish</button>
 </p>
 
