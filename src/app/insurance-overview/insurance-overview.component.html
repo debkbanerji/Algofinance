@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 
-<nav class=" bg-light my-5 fixed-top ">
+<nav class=" bg-light fixed-top " style="margin-top: 70px; padding-top: 10px">
     <div class="container ">
         <div class="row  align-items-center">
             <div class="col-lg-7">
@@ -80,13 +80,15 @@
             </div>
         </div>
         <div class = "col-lg-4">
-            <div>
+            <div style = "margin-top:25px; padding-top: 20px; padding-left: 10px; padding-bottom: 10px; background-color:whitesmoke ">
                 <h4>Chat with an agent</h4>
-                <input (keyup.enter)="makeComment()" type="text" placeholder="Comment" [(ngModel)]="newCommentText">
-                <button mat-button (click)="makeComment()">Add comment</button>
+                <mat-form-field><textarea matInput (keyup.enter)="makeComment()" type="text" placeholder="Comment" [(ngModel)]="newCommentText"></textarea>
+                </mat-form-field>
+
+                 <button style = "margin-top: 7px" class = "float-right" mat-button (click)="makeComment()">Send</button>
 
                 <div *ngFor="let comment of commentListChanges | async | orderBy: num : false">
-                    <div>{{comment['payload'].val()['name'] }}: {{comment['payload'].val()['text'] }}</div>
+                    <div><strong>{{comment['payload'].val()['name'] }}:</strong> {{comment['payload'].val()['text'] }}</div>
                 </div>
 
             </div>

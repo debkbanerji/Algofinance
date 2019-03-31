@@ -36,6 +36,13 @@ export class CalculatePolicyComponent implements OnInit {
         private db: AngularFireDatabase) {
     }
 
+    navigateBack() {
+        const component = this;
+        component.zone.run(() => {
+            component.router.navigate(['']);
+        });
+    }
+
     ngOnInit() {
         const component = this;
         component.calculationStartTime = new Date().getTime();
