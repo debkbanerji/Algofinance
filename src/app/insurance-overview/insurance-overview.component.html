@@ -7,14 +7,14 @@
                 <h5 style="font-size: 35px"
                     class="display-4 text-black mt-2 mb-6">{{clientName ? clientName + '\'s Insurance List' : 'Loading...'}}</h5>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3" *ngIf="!isAgent">
                 <mat-form-field>
                     <mat-label>Budget in Dollars</mat-label>
                     <input matInput type="number" (keyup.enter)="calculateInsurance()" [(ngModel)]="budget">
                 </mat-form-field>
                 <br>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2" *ngIf="!isAgent">
                 <button mat-raised-button style="background-color: green; color: white" (click)="calculateInsurance()">
                     Calculate
                 </button>

@@ -34,6 +34,7 @@ export class InsuranceOverviewComponent implements OnInit {
     public newCommentText: string;
 
     public budget: number;
+    public isAgent: boolean = false;
 
     constructor(private db: AngularFireDatabase,
                 public authService: AuthService,
@@ -48,6 +49,7 @@ export class InsuranceOverviewComponent implements OnInit {
                 const isAdminObject = component.db.object('/agent-profiles/' + component.userUID);
                 isAdminObject.query.once('value').then((existsResult) => {
                     if (existsResult.exists()) {
+                        component.isAgent = true;
                         component.ngZone.run(function () {
                             component.userName = existsResult.val()['display-name'];
                         });
@@ -69,6 +71,7 @@ export class InsuranceOverviewComponent implements OnInit {
                                     }
                                 });
                             } else {
+                                component.isAgent = false;
                                 component.initializeList(auth.uid);
                                 component.ngZone.run(function () {
                                     component.clientName = component.userName;
