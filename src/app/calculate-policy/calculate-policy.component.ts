@@ -159,7 +159,6 @@ export class CalculatePolicyComponent implements OnInit {
         let spent = 0;
         let result = '';
         let remaining = +0;
-        console.log(resultItems)
         for (let i = 0; i < resultItems.length; i++) {
             total += parseInt(resultItems[i]['importance'], 10);
             spent += parseInt(resultItems[i]['cost'], 10);
@@ -182,8 +181,6 @@ export class CalculatePolicyComponent implements OnInit {
         component.calculationTimeTaken = (timeTakenMS / 1000).toFixed(3);
         component.moneySpent = spent;
         component.moneyUnspent = component.budget - spent;
-        console.log(remaining);
-        console.log(component.moneyUnspent)
         component.remainingCost = remaining - this.moneyUnspent;
     }
 
