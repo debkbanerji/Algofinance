@@ -135,16 +135,17 @@ export class InsuranceOverviewComponent implements OnInit {
     onUpdateInsuranceItemSubmit(item: any) {
         const cost = document.getElementById('cost-' + item['key']).value;
         const importance = document.getElementById('importance-' + item['key']).getAttribute('aria-valuenow');
-        console.log(cost);
-        console.log(importance);
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key)
             .update({'cost': cost, 'importance': importance});
     }
 
     calculateInsurance() {
         const component = this;
-        // TODO: Budget checks
-        component.router.navigate(['calculate-policy'], {queryParams: {budget: component.budget}});
+        if (component.budget > 0) {
+            component.router.navigate(['calculate-policy'], {queryParams: {budget: component.budget}});
+        } else {
+            // TODO: Error message
+        }
     }
 
     makeComment() {

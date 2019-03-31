@@ -9,13 +9,13 @@
             </div>
             <div class="col-lg-3">
                 <mat-form-field>
-                    <mat-label>Budget (Dollars)</mat-label>
-                    <input matInput type="number" placeholder="Budget" [(ngModel)]="budget">
+                    <mat-label>Budget in Dollars</mat-label>
+                    <input matInput type="number" (keyup.enter)="calculateInsurance()" [(ngModel)]="budget">
                 </mat-form-field>
                 <br>
             </div>
             <div class="col-lg-2">
-                <button mat-raised-button color="primary" (click)="calculateInsurance()">
+                <button mat-raised-button style="background-color: green; color: white" (click)="calculateInsurance()">
                     Calculate
                 </button>
             </div>
@@ -71,25 +71,32 @@
 
                 </div>
                 <div class="col-md-6">
-                    <h4>Add new item</h4>
-                    <mat-form-field><input type="text" matInput placeholder="Item" [(ngModel)]="newName">
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field><input type="number" matInput placeholder="Cost (Dollars)" [(ngModel)]="newCost">
-                    </mat-form-field>
-                    <br>
-                    <mat-form-field><input type="text" matInput placeholder="Description" [(ngModel)]="newDescription">
-                    </mat-form-field>
-                    <br>
-                    <label>Importance</label><br>
-                    <mat-slider min="1" max="100" step="1" thumbLabel [(ngModel)]="newImportance"></mat-slider>
-                    <br>
-                    <button mat-stroked-button color="primary"
-                            (click)="onAddInsuranceItemSubmit()">
-                        Submit
-                    </button>
-                </div>
+                    <div>
+                        <br>
+                        <mat-card class="exmaple-card">
 
+                            <h4>Add new item</h4>
+                            <mat-form-field><input type="text" matInput placeholder="Item" [(ngModel)]="newName">
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field><input type="number" matInput placeholder="Cost (Dollars)"
+                                                   [(ngModel)]="newCost">
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field><input type="text" matInput placeholder="Description"
+                                                   [(ngModel)]="newDescription">
+                            </mat-form-field>
+                            <br>
+                            <label>Importance</label><br>
+                            <mat-slider min="1" max="100" step="1" thumbLabel [(ngModel)]="newImportance"></mat-slider>
+                            <br>
+                            <button mat-stroked-button color="primary"
+                                    (click)="onAddInsuranceItemSubmit()">
+                                Submit
+                            </button>
+                        </mat-card>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-4">
@@ -101,7 +108,7 @@
                 </mat-form-field>
 
                 <div style="margin-top: 7px" class="float-right">
-                    <button mat-button (click)="makeComment()">Send</button>&nbsp;
+                    <button mat-stroked-button color="primary" (click)="makeComment()">Send</button>&nbsp;&nbsp;&nbsp;
                 </div>
 
                 <div *ngFor="let comment of commentListChanges | async | orderBy: num : false">
