@@ -3,7 +3,8 @@
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-md-8">
-                <h1 class="display-4 text-black mt-5 mb-2">Calculating...</h1>
+                <h1 *ngIf="currentState < done" class="display-4 text-black mt-5 mb-2">Calculating...</h1>
+                <h1 *ngIf="currentState === done" class="display-4 text-black mt-5 mb-2">Complete!</h1>
                 <p class="lead mb-5 text-black-50">Running optimization algorithm with monthly budget of ${{budget}}</p>
             </div>
             <div>
@@ -14,6 +15,13 @@
                     [value]="5 + 90 * (currentState) / (almostDone)">
                 </mat-progress-spinner>
                 <p *ngIf="currentState === notLoaded">Initializing...</p>
+                <p *ngIf="currentState === retrievingData">Retrieving Data...</p>
+                <p *ngIf="currentState === transformingInputData">Transforming Input Data...</p>
+                <p *ngIf="currentState === runningKnapsack">Running Knapsack Algorithm...</p>
+                <p *ngIf="currentState === consolidatingResults">Consolidating Results...</p>
+                <p *ngIf="currentState === almostDone">Almost Done...</p>
+                <p *ngIf="currentState === done"></p>
+
             </div>
             <div class ="col-lg-4">
                 <!--                <img src = "{{SMART_URL}}">-->
