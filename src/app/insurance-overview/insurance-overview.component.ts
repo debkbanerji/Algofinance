@@ -15,6 +15,7 @@ export class InsuranceOverviewComponent implements OnInit {
     public insuranceItemsValueChanges: Observable<any[]>;
 
     private insuranceItemsList: AngularFireList<any>;
+    public insurancePath: string;
 
     public newName: string;
     public newCost: number;
@@ -102,6 +103,7 @@ export class InsuranceOverviewComponent implements OnInit {
         const component = this;
         component.userUID = uid;
         const insurancePath = '/user-insurance-lists/' + uid;
+        component.insurancePath = insurancePath;
         const commentsPath = '/comments/' + uid;
         const commentsCountPath = '/comments-count/' + uid;
         component.ngZone.run(function () {
@@ -145,6 +147,7 @@ export class InsuranceOverviewComponent implements OnInit {
         const element: any = document.getElementById('cost-' + item['key']);
         const cost = element.value;
         const importance = document.getElementById('importance-' + item['key']).getAttribute('aria-valuenow');
+        this.onImportanceChange(item['key'])
         this.db.object('/user-insurance-lists/' + this.userUID + '/' + item.key)
             .update({'cost': cost, 'importance': importance});
     }
@@ -172,6 +175,11 @@ export class InsuranceOverviewComponent implements OnInit {
     verifyNewCost() {
         this.newCost = Math.max(0, this.newCost);
         this.newCost = +this.newCost.toFixed(2);
+    }
+
+    onImportanceChange(objectId) {
+        const component = this;
+        component.db.object(component.insurancePath + '/' + objectId + '/agent-recommended').set(component.isAgent);
     }
 
     makeComment() {

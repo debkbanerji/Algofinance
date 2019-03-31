@@ -55,6 +55,8 @@
                                         thumbLabel
                                         value="{{insuranceItem['payload'].val()['importance']}}">
                             </mat-slider>
+                            <br *ngIf="insuranceItem['payload'].val()['agent-recommended']">
+                            <small *ngIf="insuranceItem['payload'].val()['agent-recommended']" style="color: limegreen">Agent Recommended Value</small>
                             <br>
                             <mat-card-actions>
                                 <button mat-stroked-button color="primary"
