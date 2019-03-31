@@ -24,8 +24,8 @@ export class CalculatePolicyComponent implements OnInit {
     public achievedImportance = 0;
     public inputItems = [];
     public resultInsuranceItems = [];
-    public moneySpent;
-    public moneyUnspent;
+    public moneySpent: number;
+    public moneyUnspent: number;
     public unselectedItems;
     public calculationStartTime: number;
     public calculationTimeTaken: string;
@@ -157,20 +157,21 @@ export class CalculatePolicyComponent implements OnInit {
         const component = this;
         let total = 0;
         let spent = 0;
-        let result = "";
-        let remaining = 0;
+        let result = '';
+        let remaining = +0;
+        console.log(resultItems)
         for (let i = 0; i < resultItems.length; i++) {
-            total += resultItems[i]['importance'];
-            spent += resultItems[i]['cost'];
+            total += parseInt(resultItems[i]['importance'], 10);
+            spent += parseInt(resultItems[i]['cost'], 10);
         }
         let actual = 0;
 
         for (let i = 0; i < component.inputItems.length; i++) {
-            actual += component.inputItems[i]['importance'];
+            actual += parseInt(component.inputItems[i]['importance'], 10);
         }
         for(let i = 0; i < notChosenItems.length; i++){
             result += notChosenItems[i]['name'] + ', ';
-            remaining += notChosenItems[i]['cost'];
+            remaining += parseInt(notChosenItems[i]['cost'], 10);
         }
         if (result.length > 2){
             component.unselectedItems = result.substr(0, result.length-2);
@@ -181,6 +182,8 @@ export class CalculatePolicyComponent implements OnInit {
         component.calculationTimeTaken = (timeTakenMS / 1000).toFixed(3);
         component.moneySpent = spent;
         component.moneyUnspent = component.budget - spent;
+        console.log(remaining);
+        console.log(component.moneyUnspent)
         component.remainingCost = remaining - this.moneyUnspent;
     }
 
