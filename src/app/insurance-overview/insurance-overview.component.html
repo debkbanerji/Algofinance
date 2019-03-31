@@ -74,6 +74,16 @@
 </div>
 <!-- /.container -->
 
+<div>
+    <h1>CHAT</h1>
+    <h2>{{(numCommentsChanges | async)?.payload|json}}</h2>
+    <button (click)="makeComment()">Add comment</button>
+    <div *ngFor="let comment of commentListChanges | async | orderBy: num">
+        <div>{{comment|json}}</div>
+    </div>
+    <input type="text" placeholder="Comment" [(ngModel)]="newCommentText">
+</div>
+
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">

@@ -30,6 +30,7 @@ import {InsuranceOverviewComponent} from './insurance-overview/insurance-overvie
 import {CalculatePolicyComponent} from './calculate-policy/calculate-policy.component';
 import {ViewClientsComponent} from './view-clients/view-clients.component';
 import {ManageClientComponent} from './manage-client/manage-client.component';
+import {OrderModule} from "ngx-order-pipe";
 
 const routes: Routes = [ // Array of all routes - modify when adding routes //TODO: Replace
     {path: '', component: InsuranceOverviewComponent},
@@ -52,6 +53,7 @@ const routes: Routes = [ // Array of all routes - modify when adding routes //TO
     ],
     imports: [
         BrowserModule,
+        OrderModule,
         FormsModule,
         HttpModule,
         AngularFireModule.initializeApp(config),

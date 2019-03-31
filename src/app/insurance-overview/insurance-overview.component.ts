@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {AngularFireDatabase, AngularFireList,} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList, AngularFireObject,} from '@angular/fire/database';
 import {AuthService} from '../providers/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -25,6 +25,13 @@ export class InsuranceOverviewComponent implements OnInit {
     public userUID: string;
     public userName: string;
     public clientName: string;
+
+    public commentListChanges: Observable<any[]>;
+    public commentList: AngularFireList<any>;
+    public numCommentsChanges: Observable<any>;
+    public numComments: AngularFireObject<number>;
+
+    public newCommentText: string;
 
     public budget: number = 500;
 
@@ -90,10 +97,16 @@ export class InsuranceOverviewComponent implements OnInit {
     private initializeList(uid) {
         const component = this;
         component.userUID = uid;
-        const path = '/user-insurance-lists/' + uid;
+        const insurancePath = '/user-insurance-lists/' + uid;
+        const commentsPath = '/comments/' + uid;
+        const commentsCountPath = '/comments-count/' + uid;
         component.ngZone.run(function () {
-            component.insuranceItemsList = component.db.list(path);
+            component.insuranceItemsList = component.db.list(insurancePath);
             component.insuranceItemsValueChanges = component.insuranceItemsList.snapshotChanges();
+            component.commentList = component.db.list(commentsPath);
+            component.commentListChanges = component.commentList.snapshotChanges();
+            component.numComments = component.db.object(commentsCountPath);
+            component.numCommentsChanges = component.numComments.snapshotChanges();
         });
     }
 
@@ -131,4 +144,18 @@ export class InsuranceOverviewComponent implements OnInit {
         component.router.navigate(['calculate-policy'], {queryParams: {budget: component.budget}});
     }
 
+    makeComment() {
+        const component = this;
+        if (component.newCommentText) {
+            component.numComments.query.once('value').then((result) => {
+                component.numComments.set(result.val() + 1);
+                component.commentList.push({
+                    'name': component.userName,
+                    'text': component.newCommentText,
+                    'num': result.val()
+                });
+                component.newCommentText = '';
+            });
+        }
+    }
 }
