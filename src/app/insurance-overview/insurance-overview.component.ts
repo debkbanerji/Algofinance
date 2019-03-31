@@ -20,6 +20,8 @@ export class InsuranceOverviewComponent implements OnInit {
     public newDescription: string;
     public newImportance: number;
 
+    private defaultURL = 'https://www.pinclipart.com/picdir/middle/1-10970_family-law-life-insurance-symbol-png-clipart.png';
+
     public userUID: string;
 
     public budget: number = 500;
@@ -60,7 +62,8 @@ export class InsuranceOverviewComponent implements OnInit {
             'name': name,
             'cost': cost,
             'description': description,
-            'importance': importance
+            'importance': importance,
+            'url' : this.defaultURL
         });
     }
 
