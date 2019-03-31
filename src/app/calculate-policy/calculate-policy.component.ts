@@ -45,60 +45,71 @@ export class CalculatePolicyComponent implements OnInit {
             }
             component.authService.afAuth.auth.onAuthStateChanged((auth) => {
                 if (auth != null) {
-                    component.zone.run(function () {
-                        component.currentState = component.retrievingData;
-                        const uid = auth.uid;
-                        const insuranceListPath = component.db.object('/user-insurance-lists/' + auth.uid);
-                        insuranceListPath.query.once('value').then((defaultResult) => {
-                            component.zone.run(function () {
-                                component.currentState = component.transformingInputData;
-                                const inputObjects = defaultResult.val();
-                                const keyset = Object.keys(inputObjects);
-                                component.inputItems = [];
-                                for (let i = 0; i < keyset.length; i++) {
-                                    const item = inputObjects[keyset[i]];
-                                    component.inputItems.push({
-                                        'id': i,
-                                        'cost': item['cost'],
-                                        'importance': item['importance'],
-                                        'name': item['name'],
-                                        'description': item['description'],
-                                        'url': item['url']
-
-                                    });
-                                }
-
-                                const weights = [];
-                                const values = [];
-                                for (let i = 0; i < component.inputItems.length; i++) {
-                                    weights.push(Math.floor(component.inputItems[i]['cost'] * 100));
-                                    values.push(Math.floor(component.inputItems[i]['importance']));
-                                }
-
-                                component.currentState = component.runningKnapsack;
-                                const knapsackResult = component.knapsack(weights, values, Math.floor(component.budget * 100));
-                                component.currentState = component.consolidatingResults;
-
-                                const resultItems = [];
-                                for (let i = 0; i < knapsackResult.length; i++) {
-                                    resultItems.push(component.inputItems[knapsackResult[i]]);
-                                }
-
-                                component.currentState = component.almostDone;
+                    setTimeout(() => {
+                        component.zone.run(() => {
+                            component.currentState = component.retrievingData;
+                            const uid = auth.uid;
+                            const insuranceListPath = component.db.object('/user-insurance-lists/' + auth.uid);
+                            insuranceListPath.query.once('value').then((defaultResult) => {
                                 setTimeout(() => {
-                                    component.currentState = component.done;
-                                    component.resultInsuranceItems = resultItems;
-                                    let total = 0;
-                                    for (let i = 0; i < resultItems.length; i++){
-                                        total += resultItems[i]['importance'];
-                                    }
-                                    let actual = 0;
+                                    component.zone.run(() => {
+                                        component.currentState = component.transformingInputData;
+                                        const inputObjects = defaultResult.val();
+                                        const keyset = Object.keys(inputObjects);
+                                        component.inputItems = [];
+                                        for (let i = 0; i < keyset.length; i++) {
+                                            const item = inputObjects[keyset[i]];
+                                            component.inputItems.push({
+                                                'id': i,
+                                                'cost': item['cost'],
+                                                'importance': item['importance'],
+                                                'name': item['name'],
+                                                'description': item['description'],
+                                                'url': item['url']
 
-                                    component.confidenceLevel = Math.round(total / actual * 10000)/100;
-                                }, 750)
+                                            });
+                                        }
+
+                                        const weights = [];
+                                        const values = [];
+                                        for (let i = 0; i < component.inputItems.length; i++) {
+                                            weights.push(Math.floor(component.inputItems[i]['cost'] * 100));
+                                            values.push(Math.floor(component.inputItems[i]['importance']));
+                                        }
+
+                                        setTimeout(() => {
+                                            component.zone.run(() => {
+                                                component.currentState = component.runningKnapsack;
+                                                const knapsackResult = component.knapsack(weights, values, Math.floor(component.budget * 100));
+                                                setTimeout(() => {
+                                                    component.zone.run(() => {
+                                                        component.currentState = component.consolidatingResults;
+
+                                                        const resultItems = [];
+                                                        for (let i = 0; i < knapsackResult.length; i++) {
+                                                            resultItems.push(component.inputItems[knapsackResult[i]]);
+                                                        }
+                                                        setTimeout(() => {
+                                                            component.zone.run(() => {
+                                                                component.currentState = component.almostDone;
+                                                                setTimeout(() => {
+                                                                    component.zone.run(() => {
+                                                                        component.currentState = component.done;
+                                                                        component.resultInsuranceItems = resultItems;
+                                                                        component.displayResults(resultItems);
+                                                                    });
+                                                                }, 1000)
+                                                            });
+                                                        }, 1000);
+                                                    });
+                                                }, 1000);
+                                            });
+                                        }, 1000);
+                                    });
+                                }, 1000);
                             });
                         });
-                    });
+                    }, 1000);
                 } else {
                     component.zone.run(function () {
                         component.router.navigate(['login']);
@@ -106,6 +117,17 @@ export class CalculatePolicyComponent implements OnInit {
                 }
             });
         });
+    }
+
+    private displayResults(resultItems) {
+        const component = this;
+        let total = 0;
+        for (let i = 0; i < resultItems.length; i++) {
+            total += resultItems[i]['importance'];
+        }
+        let actual = 0;
+
+        component.confidenceLevel = Math.round(total / actual * 10000) / 100;
     }
 
     // Knapsack without repetition
